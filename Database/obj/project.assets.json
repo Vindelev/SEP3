@@ -11590,11 +11590,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Flemming\\Desktop\\Database\\Database.csproj",
+      "projectUniqueName": "c:\\Users\\Flemming\\Desktop\\SEP3\\Database\\Database.csproj",
       "projectName": "Database",
-      "projectPath": "c:\\Users\\Flemming\\Desktop\\Database\\Database.csproj",
+      "projectPath": "c:\\Users\\Flemming\\Desktop\\SEP3\\Database\\Database.csproj",
       "packagesPath": "C:\\Users\\Flemming\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Flemming\\Desktop\\Database\\obj\\",
+      "outputPath": "c:\\Users\\Flemming\\Desktop\\SEP3\\Database\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
