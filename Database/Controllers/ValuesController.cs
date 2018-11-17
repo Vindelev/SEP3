@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Database.Controllers
 {
-    [Route("api/values")]
+    [Route("api/people")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
@@ -24,14 +24,14 @@ namespace Database.Controllers
         }
 
 
-        // GET api/values
+        // GET api/people
         [HttpGet]
         public ActionResult<List<Person>> GetAll()
         {
             return people.People.ToList();
         }
 
-        // GET api/values/5
+        // GET api/people/{cpr}
         [HttpGet("{CPR}", Name = "GetPerson")]
         public ActionResult<Person> Get(string CPR)
         {
@@ -46,22 +46,47 @@ namespace Database.Controllers
            
         }
 
-        // POST api/values
+        // POST api/people
         [HttpPost]
-        public void Post([FromBody] string value)
-        {
+        public IActionResult Create([FromBody] Person person){
+            people.People.Add(person);
+            people.SaveChanges();
+
+            return CreatedAtRoute("GetPerson", new {CPR = person.CPR}, person);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+        // PUT api/people/{cpr}
+        [HttpPut("{CPR}")]
+        public IActionResult Update(string CPR, Person person){
+            var human = people.People.Find(CPR);
+            if( human == null){
+                return NotFound();
+            }
+            else{
+                human.Name = person.Name;
+                human.MobileNumber = person.MobileNumber;
+                
+                people.People.Update(human);
+                people.SaveChanges();
+                
+                return NoContent();
+            }
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE api/people/{cpr}
+        [HttpDelete("{CPR}")]
+        public IActionResult Delete(int CPR)
         {
+            var person = people.People.Find(CPR);
+            if (person == null){
+                return NotFound();
+            }
+            else{
+                people.People.Remove(person);
+                people.SaveChanges();
+                return NoContent();
+            }
+            
         }
     }
 }
