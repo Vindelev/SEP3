@@ -6,22 +6,44 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Database.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/values")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private MotherloadContext people;
+
+        public ValuesController(MotherloadContext people){
+            this.people = people;
+            if (people.People.Count() == 0)
+            {
+                // Create a new Person if collection is empty,
+                // which means you can't delete all People.
+                people.People.Add(new Person { Name = "Mihail", CPR = "6969696969" });
+                people.SaveChanges();
+            }
+        }
+
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<List<Person>> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return people.People.ToList();
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{CPR}", Name = "GetPerson")]
+        public ActionResult<Person> Get(string CPR)
         {
-            return "value";
+
+            var person = people.People.Find(CPR);
+            if(person == null){
+                return NotFound();
+            }
+            else{
+                return person;
+            }
+           
         }
 
         // POST api/values
