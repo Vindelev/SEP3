@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gson"/>
 	<classpathentry kind="lib" path="C:/Users/user/Desktop/jaxrs-ri/api/javax.ws.rs-api-2.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/user/Desktop/jaxrs-ri/ext/aopalliance-repackaged-2.5.0-b42.jar"/>
 	<classpathentry kind="lib" path="C:/Users/user/Desktop/jaxrs-ri/ext/cdi-api-1.1.jar"/>

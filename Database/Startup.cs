@@ -42,7 +42,6 @@ namespace Database
             {
                 app.UseHsts();
             }
-
             app.UseMvc();
         }
     }
