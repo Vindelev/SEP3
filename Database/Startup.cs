@@ -43,7 +43,6 @@ namespace Database
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
