@@ -5,7 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import Controller.Controller;
-
+//This class is responsible for listening 
+//for and connecting to front end clients.
 public class SocketServer implements Runnable
 {
    private ServerSocket serverSocket;
@@ -18,7 +19,9 @@ public class SocketServer implements Runnable
       this.dbsClient = dbsClient;
       this.controller.execute(0, new String[] {"Socket server initiated successfully!"});
    }
-   
+   //Run a loop that listens for connections.
+   //If a connection occurs, create a new thread and run the connection on it
+   //Proceed listening for other clients.
    public void run() {
       while(true) {
          try

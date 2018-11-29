@@ -10,7 +10,8 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 
 import Controller.Controller;
-
+//This class is responsible for the communication between 
+//a client and the middleware.
 public class Communication implements Runnable
 {
    private DataInputStream inFromClient;
@@ -20,14 +21,19 @@ public class Communication implements Runnable
    private Socket socket;
    private final byte[] bArray = new byte[1024];
    
+   //Constructor receives a socket, to initiate a connection to the client
+   //and the instances of the controller and dbsClient 
+   //in order to invoke methods on them.
    public Communication(Socket socket, Controller controller, DbsClient dbsClient) throws IOException{
       inFromClient = new DataInputStream(socket.getInputStream());
       outToClient = new DataOutputStream(socket.getOutputStream());
+      
       this.controller = controller;
       this.dbsClient = dbsClient;
       this.socket = socket;
    }
-
+   //Runs a loop that listens for client requests
+   //and potentially responds to them.
    public void run()
    {
       boolean runny = true;
