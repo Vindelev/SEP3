@@ -3,6 +3,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
@@ -29,9 +30,20 @@ public class Communication implements Runnable
 
    public void run()
    {
-      while(true) {
+      boolean runny = true;
+      while(runny) {
          try{
-            int bInt = inFromClient.read(bArray);
+            int bInt = 0;
+            try {
+               bInt = inFromClient.read(bArray);
+            }
+            catch(SocketException scktE) {
+               controller.execute(1, new String[] { socket.getRemoteSocketAddress().toString(), " disconnected from the server."});
+               socket.close();
+               runny = false;
+               break;
+            }
+            
             String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
             Gson gson = new Gson();
             String clientText = gson.fromJson(request, String.class);
@@ -46,7 +58,7 @@ public class Communication implements Runnable
                gson = new Gson();
                Person person = dbsClient.getPerson(clientText);
                String response = gson.toJson(person)+"\r\n";
-               controller.execute(1, new String[] {socket.getRemoteSocketAddress().toString(), response});
+               controller.execute(1, new String[] {socket.getRemoteSocketAddress().toString() + " requested ", response});
                byte[] responseBytes = response.getBytes("ASCII");
                outToClient.write(responseBytes);
                controller.execute(0, new String[] {"Resposne sent successfully!"});

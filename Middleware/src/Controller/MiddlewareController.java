@@ -28,7 +28,7 @@ public class MiddlewareController implements Controller, Serializable
          case 0: view.print(list[0]);
                   break;
          //Prints application client requests to the view(console)
-         case 1:  view.print(list[0] +" requested " + list[1]);
+         case 1:  view.print(list[0] + list[1]);
                   break;
       }
    }
