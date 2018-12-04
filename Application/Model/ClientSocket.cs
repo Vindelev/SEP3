@@ -95,8 +95,7 @@ public class ClientSocket{
                  
             } else {  
                 // All the data has arrived; put it in response. 
-                // Signal that all bytes have been received.  
-                System.Console.WriteLine(response);
+                // Signal that all bytes have been received.  ;
             }  
         } catch (Exception e) {  
             Console.WriteLine(e.ToString());  
@@ -132,20 +131,21 @@ public class ClientSocket{
         client.Shutdown(SocketShutdown.Both);  
         client.Close();
     }
-    public List<Person> GetPerson(){
-        Send(this.client, "get");
+
+    public String Login(String name, String password){
+        Send(this.client, "login");
         sendDone.WaitOne();
-        Send(this.client, "6969696969");
+        Send(this.client, name + "," + password);
         sendDone.WaitOne();
 
         Receive(this.client);
         receiveDone.WaitOne();
 
         
-        Person p2 = JsonConvert.DeserializeObject<Person>(response);
-        List<Person> lelist = new List<Person>();
-        lelist.Add(p2);
-        return lelist; 
+        //String answer = JsonConvert.DeserializeObject<String>(response);
+        var user = JsonConvert.DeserializeObject<String>(response);
+
+        return user; 
     }
 
 }

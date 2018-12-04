@@ -27,8 +27,7 @@ public class SocketServer implements Runnable
          try
          {
             Socket server = serverSocket.accept();
-            controller.execute(0, new String[] {"Connected to: " + server.getRemoteSocketAddress()});
-            
+    
             Communication clientConnected = new Communication(server, controller, dbsClient);
             clientConnected.run();
            

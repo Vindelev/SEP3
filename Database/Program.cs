@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Database.Controllers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,8 @@ namespace Database
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+            var context = new MotherloadContext();
+            var controller = new ValuesController(context);
             
 
             //CREATE A CONTEXT AND START CALLING FUNCTIONS ON THE TABLES IN THE DATABASE

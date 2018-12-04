@@ -17,20 +17,22 @@ namespace Database.Migrations
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Person", b =>
+            modelBuilder.Entity("User", b =>
                 {
-                    b.Property<string>("CPR")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(10);
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("MobileNumber")
-                        .HasMaxLength(8);
+                    b.Property<string>("Email");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("CPR");
+                    b.Property<string>("Password");
 
-                    b.ToTable("People");
+                    b.Property<string>("PhoneNumber");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

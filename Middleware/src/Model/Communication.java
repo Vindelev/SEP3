@@ -31,6 +31,7 @@ public class Communication implements Runnable
       this.controller = controller;
       this.dbsClient = dbsClient;
       this.socket = socket;
+      controller.execute(0, new String[] {"Connected to: " + socket.getRemoteSocketAddress().toString()});
    }
    //Runs a loop that listens for client requests
    //and potentially responds to them.
@@ -40,6 +41,9 @@ public class Communication implements Runnable
       while(runny) {
          try{
             int bInt = 0;
+            //Tries to talk to client and if exception is caught
+            //the thread is terminated and client connection
+            //is closed.
             try {
                bInt = inFromClient.read(bArray);
             }
@@ -49,12 +53,32 @@ public class Communication implements Runnable
                runny = false;
                break;
             }
-            
             String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
             Gson gson = new Gson();
             String clientText = gson.fromJson(request, String.class);
             
-            if(clientText.equals("get")) {
+            //Asks database to compare the account information
+            //sent from the client and returns back to client
+            //if access is granted.
+            if(clientText.equals("login")) {
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested login"});
+               bInt = inFromClient.read(bArray);
+               request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+
+               
+               String[] account = request.split(",");
+               gson = new Gson();
+               //Talks to database and saves the answer to string
+               String answer = dbsClient.login(account[0], account[1]);
+               //Adds \r\n in the end in order to tell client
+               //where to stop reading
+               String response = answer + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               //Sends "Respond sent succsessfully" to middleware view
+               controller.execute(0, new String[] {"Resposne sent successfully!"});
+            }
+            /*if(clientText.equals("get")) {
                bInt = inFromClient.read(bArray);
                request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
                gson = new Gson();
@@ -68,10 +92,10 @@ public class Communication implements Runnable
                byte[] responseBytes = response.getBytes("ASCII");
                outToClient.write(responseBytes);
                controller.execute(0, new String[] {"Resposne sent successfully!"});
-            }
+            }*/
          }
          catch (Exception e){
-            e.printStackTrace();
+            System.out.println("woops");
          } 
       }   
    }

@@ -1,31 +1,28 @@
 @page
 @model IndexModel
 
+@if(User.Identity.IsAuthenticated)
+{
+    <div>
+        <p>Hello, @User.Identity.Name !</p>
+        <p> !</p>
 
-<h1> People </h1>
-
-@if(Model.HasPeople){
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(m => m.People[0].Name)</th>
-            <th>@Html.DisplayNameFor(m => m.People[0].CPR)</th>
-            <th>@Html.DisplayNameFor(m => m.People[0].MobileNumber)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var person in Model.People){
-            <tr>
-                <td>@Html.DisplayFor(m => person.Name)</td>
-                <td>@Html.DisplayFor(m => person.CPR)</td>
-                <td>@Html.DisplayFor(m => person.MobileNumber)</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <form method="post" asp-action="Logout">
+            <button type="submit">Log out</button>
+        </form>
+    </div>
 }
-else{
-    <p>No people found.</p>
+else
+{
+     <div>
+         <p>Enter your name and password to log in:</p>
+
+         <form asp-action = "Login" method="post">
+             <label for="Name">Name</label>
+             <input type="text" id="Name" name ="name"/>
+             <label for="Password">Password</label>
+             <input type="text" id="Password" name ="password"/>
+             <button type="submit">Log in</button>
+         </form>
+     </div>
 }

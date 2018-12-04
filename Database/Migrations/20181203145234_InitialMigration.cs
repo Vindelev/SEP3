@@ -7,23 +7,25 @@ namespace Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "People",
+                name: "Users",
                 columns: table => new
                 {
-                    CPR = table.Column<string>(maxLength: 10, nullable: false),
-                    name = table.Column<string>(nullable: true),
-                    MobileNumber = table.Column<string>(maxLength: 8, nullable: true)
+                    UserId = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_People", x => x.CPR);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "People");
+                name: "Users");
         }
     }
 }
