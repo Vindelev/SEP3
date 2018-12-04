@@ -17,8 +17,6 @@ namespace Database
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
-            var context = new MotherloadContext();
-            var controller = new ValuesController(context);
             
 
             //CREATE A CONTEXT AND START CALLING FUNCTIONS ON THE TABLES IN THE DATABASE

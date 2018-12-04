@@ -5,9 +5,8 @@
 {
     <div>
         <p>Hello, @User.Identity.Name !</p>
-        <p> !</p>
 
-        <form method="post" asp-action="Logout">
+        <form method="post" asp-page-handler="Logout">
             <button type="submit">Log out</button>
         </form>
     </div>
@@ -17,7 +16,7 @@ else
      <div>
          <p>Enter your name and password to log in:</p>
 
-         <form asp-action = "Login" method="post">
+         <form method="post" asp-page-handler="Login">
              <label for="Name">Name</label>
              <input type="text" id="Name" name ="name"/>
              <label for="Password">Password</label>

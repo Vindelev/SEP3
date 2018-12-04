@@ -14,12 +14,8 @@ namespace Application.Pages
     {
         private ClientSocket client;
 
-        public IndexModel(){
-           
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Login (string name, string password){
+        [HttpPost]  
+        public async Task<IActionResult> OnPostLoginAsync(string name, string password){
             client = new ClientSocket();
             var login = client.Login(name,password);
             System.Console.WriteLine(login);
@@ -45,7 +41,15 @@ namespace Application.Pages
             }
             else{
                 return Redirect("~/People");
-            }  
+            }   
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> OnPostLogoutAsync(){
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("~/People");
         }
     }
+
+    
 }
