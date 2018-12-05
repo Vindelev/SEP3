@@ -8,8 +8,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(MotherloadContext))]
-    [Migration("20181203145234_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20181205193119_Users")]
+    partial class Users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,8 @@ namespace Database.Migrations
                     b.Property<string>("Password");
 
                     b.Property<string>("PhoneNumber");
+
+                    b.Property<string>("UserName");
 
                     b.HasKey("UserId");
 

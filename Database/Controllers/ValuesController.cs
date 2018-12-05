@@ -19,7 +19,8 @@ namespace Database.Controllers
             {
                 // Create a new User if collection is empty,
                 // which means you can't delete all People.
-                motherload.Users.Add(new User { Name = "big", Password = "brother", Email = "test@test.org", PhoneNumber = "69696969"});
+                motherload.Users.Add(new User { Name = "big", Password = "brother", 
+                Email = "test@test.org", PhoneNumber = "69696969", UserName="Mihail Kanchev"});
                 motherload.SaveChanges();
             }
         }
@@ -52,14 +53,36 @@ namespace Database.Controllers
            
         }
 
-        // POST api/people
-        /* [HttpPost]
-        public IActionResult Create([FromBody] Person person){
-            people.People.Add(person);
-            people.SaveChanges();
+        // POST api/users
+         [HttpPost]
+        public ActionResult<String> Create([FromBody]User user){
+            //creates user object from the request
+            //var user = JsonConvert.DeserializeObject<User>(userRequest);
+            //Checks if name,email or phone exists in database
+            bool userNameCheck = false;
+            bool emailCheck = false;
+            bool phoneCheck = false;
+            
+            userNameCheck = motherload.Users.Any (User => User.UserName == user.UserName);
+            emailCheck = motherload.Users.Any (User => User.Email == user.Email);
+            phoneCheck = motherload.Users.Any (User => User.PhoneNumber == user.PhoneNumber);
 
-            return CreatedAtRoute("GetPerson", new {CPR = person.CPR}, person);
-        }*/
+            if(userNameCheck){
+                return "username";
+            }
+            else if(emailCheck){
+                return "email";
+            }
+            else if(phoneCheck){
+                return "phone";
+            }
+            //if everything is fine, adds new user to database and sends back "created"
+            else{
+                motherload.Users.Add(user);
+                motherload.SaveChanges();
+                return "created";
+            }
+        }
 
         // PUT api/people/{cpr}
         /* [HttpPut("{CPR}")]

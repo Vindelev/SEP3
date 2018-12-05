@@ -30,4 +30,5 @@ E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\n
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Application.dll
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Application.pdb
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Application.csproj.CopyComplete
-E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Razor\Pages\People\index.g.cshtml.cs
+E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Razor\Pages\noIndex.g.cshtml.cs
+E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Razor\Pages\Register.g.cshtml.cs
