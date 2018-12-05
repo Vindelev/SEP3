@@ -52,14 +52,32 @@ namespace Database.Controllers
            
         }
 
-        // POST api/people
-        /* [HttpPost]
-        public IActionResult Create([FromBody] Person person){
-            people.People.Add(person);
-            people.SaveChanges();
+        // POST api/users
+         [HttpPost]
+        public ActionResult<String> Create(String request){
+            //creates user object from the request
+            var user = JsonConvert.DeserializeObject<User>(request);
+            //Checks if name,email or phone exists in database
+            bool nameCheck = motherload.Users.Any (User => User.Name == user.Name);
+            bool emailCheck = motherload.Users.Any (User => User.Email == user.Email);
+            bool phoneCheck = motherload.Users.Any (User => User.PhoneNumber == user.PhoneNumber);
 
-            return CreatedAtRoute("GetPerson", new {CPR = person.CPR}, person);
-        }*/
+            if(nameCheck){
+                return "name";
+            }
+            else if(emailCheck){
+                return "email";
+            }
+            else if(phoneCheck){
+                return "phone";
+            }
+            //if everything is fine, adds new user to database and sends back "created"
+            else{
+                motherload.Users.Add(user);
+                motherload.SaveChanges();
+                return "created";
+            }
+        }
 
         // PUT api/people/{cpr}
         /* [HttpPut("{CPR}")]

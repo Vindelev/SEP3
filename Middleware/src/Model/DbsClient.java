@@ -42,7 +42,14 @@ public class DbsClient
       
       public String login(String name, String password) {
          Response response = client.target("http://localhost:5000/api/users/" + name
-               + "," + password).request("application/json").get();
+               + "," + password).request("text/plain").get();
+         String answer = response.readEntity(String.class);
+         response.close();
+         return answer;
+      }
+      
+      public String register(String user){
+         Response response = client.target("http://localhost:5000/api/users/" + user).request("application/json").get();
          String answer = response.readEntity(String.class);
          response.close();
          return answer;

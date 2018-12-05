@@ -15,12 +15,12 @@ public class ClientSocket{
     private const int port = 6969;  
   
     // ManualResetEvent instances signal completion.  
-    private static ManualResetEvent connectDone;
-    private static ManualResetEvent sendDone;
-    private static ManualResetEvent receiveDone; 
+    private ManualResetEvent connectDone;
+    private ManualResetEvent sendDone;
+    private ManualResetEvent receiveDone; 
   
     // The response from the remote device.  
-    private static String response;
+    private String response;
     private Socket client;
 
     public ClientSocket(){
@@ -40,7 +40,7 @@ public class ClientSocket{
         client.BeginConnect( remoteEP, new AsyncCallback(ConnectCallback), client);  
         connectDone.WaitOne();  
     }  
-    private static void ConnectCallback(IAsyncResult ar) {  
+    private void ConnectCallback(IAsyncResult ar) {  
         try {  
             // Retrieve the socket from the state object.  
             Socket client = (Socket) ar.AsyncState;  
@@ -58,7 +58,7 @@ public class ClientSocket{
         }  
     }  
   
-    private static void Receive(Socket client) {  
+    private void Receive(Socket client) {  
         try {  
             // Create the state object.  
             StateObject state = new StateObject();  
@@ -71,7 +71,7 @@ public class ClientSocket{
         }  
     }  
   
-    private static void ReceiveCallback( IAsyncResult ar ) {  
+    private void ReceiveCallback( IAsyncResult ar ) {  
         try {  
             // Retrieve the state object and the client socket   
             // from the asynchronous state object.  
@@ -82,10 +82,10 @@ public class ClientSocket{
             if (bytesRead > 0) {  
                 // There might be more data, so store the data received so far. 
                 state.sb.Append(Encoding.ASCII.GetString(state.buffer,0,bytesRead)); 
-
-                if (state.sb.ToString().EndsWith("\r\n"))
+                string content = state.sb.ToString();
+                if (content.EndsWith("\r\n"))
                 {
-                    response = state.sb.ToString();
+                    response = content.Substring(0, content.Length - 2);
                     receiveDone.Set();
                 } 
                 // Get the rest of the data. 
@@ -102,7 +102,7 @@ public class ClientSocket{
         }  
     }  
   
-    private static void Send(Socket client, String data) {  
+    private void Send(Socket client, String data) {  
         // Convert the string data to byte data using ASCII encoding.  
         byte[] byteData = Encoding.ASCII.GetBytes(data);  
   
@@ -110,7 +110,7 @@ public class ClientSocket{
         client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);  
     }  
   
-    private static void SendCallback(IAsyncResult ar) {  
+    private void SendCallback(IAsyncResult ar) {  
         try {  
             // Retrieve the socket from the state object.  
             Socket client = (Socket) ar.AsyncState;  
@@ -127,7 +127,7 @@ public class ClientSocket{
     }  
 
     //Terminates given client
-    public static void TerminateSocketClient(Socket client){
+    public void TerminateSocketClient(Socket client){
         client.Shutdown(SocketShutdown.Both);  
         client.Close();
     }
@@ -135,17 +135,26 @@ public class ClientSocket{
     public String Login(String name, String password){
         Send(this.client, "login");
         sendDone.WaitOne();
+        sendDone.Reset();
+        
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+        System.Console.WriteLine(response);
+        
         Send(this.client, name + "," + password);
         sendDone.WaitOne();
+        sendDone.Reset();
 
         Receive(this.client);
         receiveDone.WaitOne();
+        receiveDone.Reset();
 
+        //var user = JsonConvert.DeserializeObject<String>(response);
         
-        //String answer = JsonConvert.DeserializeObject<String>(response);
-        var user = JsonConvert.DeserializeObject<String>(response);
+        System.Console.WriteLine(response);
 
-        return user; 
+        return response; 
     }
 
 }

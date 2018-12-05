@@ -3,6 +3,11 @@ package Model;
 public class User
 {
    public String Name;
+   public String Email;
+   public String PhoneNumber;
+   public String Password;
+   public String UserId;
+   
    public String getName()
    {
       return Name;
@@ -43,8 +48,4 @@ public class User
    {
       UserId = userId;
    }
-   public String Email;
-   public String PhoneNumber;
-   public String Password;
-   public String UserId;
 }

@@ -14,17 +14,32 @@ namespace Application.Pages
     {
         private ClientSocket client;
 
+        public String ErrorMessage { get; set;}
+
+        public bool Message { get; set;}
+
+        public IndexModel(){
+            client = new ClientSocket();
+        }
+
+        public void SetMessageToFalse(){
+            Message = false;
+        }
+
         [HttpPost]  
         public async Task<IActionResult> OnPostLoginAsync(string name, string password){
-            client = new ClientSocket();
             var login = client.Login(name,password);
-            System.Console.WriteLine(login);
             if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password)){
-                return Redirect("~/People");
+                ErrorMessage = "Please fill in both name and password.";
+                Message = true;
+                return Redirect("Index");
             }
             else if(login.Equals("password")){
                 
-                return Redirect("~/People");
+                ErrorMessage = "Wrong password.";
+                Message = true;
+                System.Console.WriteLine(ErrorMessage);
+                return Redirect("Index");
             }
             
             else if(login.Equals("enter")){
@@ -37,17 +52,19 @@ namespace Application.Pages
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
 
-                return Redirect("~/People");
+                return Redirect("Index");
             }
             else{
-                return Redirect("~/People");
+                ErrorMessage = "User does not exist.";
+                Message = true;
+                return Redirect("Index");
             }   
         }
         
         [HttpPost]
         public async Task<IActionResult> OnPostLogoutAsync(){
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("~/People");
+            return Redirect("Index");
         }
     }
 
