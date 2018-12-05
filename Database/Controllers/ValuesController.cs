@@ -19,7 +19,8 @@ namespace Database.Controllers
             {
                 // Create a new User if collection is empty,
                 // which means you can't delete all People.
-                motherload.Users.Add(new User { Name = "big", Password = "brother", Email = "test@test.org", PhoneNumber = "69696969"});
+                motherload.Users.Add(new User { Name = "big", Password = "brother", 
+                Email = "test@test.org", PhoneNumber = "69696969", UserName="Mihail Kanchev"});
                 motherload.SaveChanges();
             }
         }
@@ -54,16 +55,20 @@ namespace Database.Controllers
 
         // POST api/users
          [HttpPost]
-        public ActionResult<String> Create(String request){
+        public ActionResult<String> Create([FromBody]User user){
             //creates user object from the request
-            var user = JsonConvert.DeserializeObject<User>(request);
+            //var user = JsonConvert.DeserializeObject<User>(userRequest);
             //Checks if name,email or phone exists in database
-            bool nameCheck = motherload.Users.Any (User => User.Name == user.Name);
-            bool emailCheck = motherload.Users.Any (User => User.Email == user.Email);
-            bool phoneCheck = motherload.Users.Any (User => User.PhoneNumber == user.PhoneNumber);
+            bool userNameCheck = false;
+            bool emailCheck = false;
+            bool phoneCheck = false;
+            
+            userNameCheck = motherload.Users.Any (User => User.UserName == user.UserName);
+            emailCheck = motherload.Users.Any (User => User.Email == user.Email);
+            phoneCheck = motherload.Users.Any (User => User.PhoneNumber == user.PhoneNumber);
 
-            if(nameCheck){
-                return "name";
+            if(userNameCheck){
+                return "username";
             }
             else if(emailCheck){
                 return "email";

@@ -20,6 +20,8 @@ public class Communication implements Runnable
    private DbsClient dbsClient;
    private Socket socket;
    private final byte[] bArray = new byte[1024];
+   private String clientText;
+   private Gson gson;
    
    //Constructor receives a socket, to initiate a connection to the client
    //and the instances of the controller and dbsClient 
@@ -46,6 +48,7 @@ public class Communication implements Runnable
             //is closed.
             try {
                bInt = inFromClient.read(bArray);
+               clientText = new String(bArray, 0, bInt, Charset.forName("ASCII"));
             }
             catch(SocketException scktE) {
                controller.execute(1, new String[] { socket.getRemoteSocketAddress().toString(), " disconnected from the server."});
@@ -53,8 +56,7 @@ public class Communication implements Runnable
                runny = false;
                break;
             }
-            String clientText = new String(bArray, 0, bInt, Charset.forName("ASCII"));
-            Gson gson = new Gson();
+            
 
             //Asks database to compare the account information
             //sent from the client and returns back to client
@@ -81,9 +83,18 @@ public class Communication implements Runnable
                outToClient.write(responseBytes);
                //Sends "Respond sent succsessfully" to middleware view
                controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
             }
             else if(clientText.equals("register")){
                controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested registration"});
+               //Send a response saying that you received the login message
+               //and the client can proceed with its request.
+               String response = "ok" + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
                bInt = inFromClient.read(bArray);
                String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
                
@@ -91,23 +102,28 @@ public class Communication implements Runnable
                String[] userArray = request.split(",");
                //Makes User object and sets attributes
                User user = new User();
-               user.setName(userArray[0]);
+               user.setUserName(userArray[0]);
                user.setPassword(userArray[1]);
                user.setEmail(userArray[2]);
                user.setPhoneNumber(userArray[3]);
+               user.setName(userArray[4]);
+               user.setUserId(null);
                //Serializes User object
-               gson = new Gson();
-               String registerRequest = gson.toJson(user);
+              //gson = new Gson();
+              // String registerRequest = gson.toJson(user);
                
                //Talks to database and saves the answer to string
-               String answer = dbsClient.register(registerRequest);
+               String answer = dbsClient.register(user);
                //Adds \r\n in the end in order to tell client
                //where to stop reading
-               String response = answer + "\r\n";
-               byte[] responseBytes = response.getBytes("ASCII");
+               response = answer + "\r\n";
+               responseBytes = response.getBytes("ASCII");
                outToClient.write(responseBytes);
                //Sends "Respond sent succsessfully" to middleware view
                controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
             }
             /*if(clientText.equals("get")) {
                bInt = inFromClient.read(bArray);

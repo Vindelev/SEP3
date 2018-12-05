@@ -2,6 +2,7 @@ package Model;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
@@ -48,8 +49,9 @@ public class DbsClient
          return answer;
       }
       
-      public String register(String user){
-         Response response = client.target("http://localhost:5000/api/users/" + user).request("application/json").get();
+      public String register(User user){
+         System.out.println(user);
+         Response response = client.target("http://localhost:5000/api/users/").request("text/plain").post(Entity.json(user));
          String answer = response.readEntity(String.class);
          response.close();
          return answer;

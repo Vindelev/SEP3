@@ -6,18 +6,64 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 public class RegisterModel : PageModel{
+       private ClientSocket client;
+
+
+        public RegisterModel(){
+            
+        }
+       
+       
         [HttpPost]
-        public async Task<IActionResult> OnPostRegisterAsync(String name, String password, 
-                                                            String confirm, String email, String phone){
-            if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(password) 
-                ||string.IsNullOrEmpty(password) ||string.IsNullOrEmpty(password) ||string.IsNullOrEmpty(password)){
-                ModelState.AddModelError("Fields", "Please make sure to fill in all the fields.");
+        public async Task<IActionResult> OnPostRegisterAsync
+        (String userName, String password, String confirm, String email, String phone, String name){
+            
+            client = new ClientSocket();
+
+            string user = userName;
+            user += "," + password;
+            user += "," + email;
+            user += "," + phone;
+            user += "," + name;
+            
+            var answer = client.Register(user);
+            
+            if(string.IsNullOrEmpty(name)||string.IsNullOrEmpty(password)||
+            string.IsNullOrEmpty(password)||string.IsNullOrEmpty(userName)
+            ||string.IsNullOrEmpty(password)||string.IsNullOrEmpty(password)||string.IsNullOrEmpty(password)){
+
+                return Redirect("Register");
+
             }
             
             if(!(password.Equals(confirm))){
-                ModelState.AddModelError("Password", "Passwords do not match");
+
+                return Redirect("Register");
+
             }
-            return Redirect("Index");
-            
+
+            if(answer.Equals("username")){
+
+                return Redirect("Register");
+
+            }
+            else if(answer.Equals("email")){
+
+                return Redirect("Register");
+
+            }
+            else if(answer.Equals("phone")){
+
+                return Redirect("Register");
+
+            }
+            else if(answer.Equals("created")){
+
+                return Redirect("Index");
+
+            }
+            else{
+                return Redirect("Register");
+            }
         }
 }

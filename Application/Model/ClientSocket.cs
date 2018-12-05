@@ -38,7 +38,8 @@ public class ClientSocket{
   
         // Connect to the remote endpoint.  
         client.BeginConnect( remoteEP, new AsyncCallback(ConnectCallback), client);  
-        connectDone.WaitOne();  
+        connectDone.WaitOne(); 
+        connectDone.Reset(); 
     }  
     private void ConnectCallback(IAsyncResult ar) {  
         try {  
@@ -151,10 +152,28 @@ public class ClientSocket{
         receiveDone.Reset();
 
         //var user = JsonConvert.DeserializeObject<String>(response);
-        
-        System.Console.WriteLine(response);
-
         return response; 
     }
 
+    public String Register(String user){
+        Send(this.client, "register");
+        sendDone.WaitOne();
+        sendDone.Reset();
+        
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+        System.Console.WriteLine(response);
+        
+        Send(this.client, user);
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+
+        System.Console.WriteLine(response);
+        return response;
+    }
 }

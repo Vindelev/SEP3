@@ -72,7 +72,7 @@ using Application;
             WriteLiteral(" !</p>\r\n\r\n        ");
             EndContext();
             BeginContext(133, 115, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "292b222ea6c04e95ad3f514cdcd20192", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ad620af07363431eb758cf41dc88dc21", async() => {
                 BeginContext(179, 62, true);
                 WriteLiteral("\r\n            <button type=\"submit\">Log out</button>\r\n        ");
                 EndContext();
@@ -131,7 +131,7 @@ else
             WriteLiteral("     <div>\r\n         <p>Enter your name and password to log in:</p>\r\n\r\n         ");
             EndContext();
             BeginContext(722, 337, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd69cc2667c74580984e52eb5b54afa4", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eeae08c767004da5a8cdece13f87dc3c", async() => {
                 BeginContext(767, 285, true);
                 WriteLiteral(@"
              <label for=""Name"">Name</label>
@@ -166,7 +166,7 @@ else
             WriteLiteral("     <div>\r\n         ");
             EndContext();
             BeginContext(1097, 96, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2a9c8909fa1041ef88c90a567e440a11", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "655326515236402f81d5526add3d18e8", async() => {
                 BeginContext(1121, 65, true);
                 WriteLiteral("\r\n             <button type=\"submit\">Register</button>\r\n         ");
                 EndContext();

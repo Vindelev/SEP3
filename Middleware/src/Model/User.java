@@ -2,12 +2,30 @@ package Model;
 
 public class User
 {
-   public String Name;
-   public String Email;
-   public String PhoneNumber;
-   public String Password;
    public String UserId;
+   public String Name;
+   public String UserName;
+   public String Password;
+   public String PhoneNumber;
+   public String Email;
    
+   
+   public String getUserId()
+   {
+      return UserId;
+   }
+   public void setUserId(String userId)
+   {
+      UserId = userId;
+   }
+   public String getUserName()
+   {
+      return UserName;
+   }
+   public void setUserName(String userName)
+   {
+      UserName = userName;
+   }
    public String getName()
    {
       return Name;
@@ -39,13 +57,5 @@ public class User
    public void setPassword(String password)
    {
       Password = password;
-   }
-   public String getUserId()
-   {
-      return UserId;
-   }
-   public void setUserId(String userId)
-   {
-      UserId = userId;
    }
 }
