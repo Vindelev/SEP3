@@ -55,4 +55,12 @@ public class DbsClient
          response.close();
          return answer;
       }
+      public String createRide(Ride ride) {
+         System.out.println(ride);
+         Response response = client.target("http://localhost:5000/api/rides/").request("text/plain")
+               .post(Entity.json(ride));
+         String answer = response.readEntity(String.class);
+         response.close();
+         return answer;
+      }
 }

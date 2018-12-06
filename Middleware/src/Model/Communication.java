@@ -123,6 +123,32 @@ public class Communication implements Runnable
                runny = false;
                break;
             }
+            else if (clientText.equals("createRide")) {
+               controller.execute(0,
+                     new String[] { socket.getRemoteSocketAddress().toString() + "requested ride validation" });
+               bInt = inFromClient.read(bArray);
+               request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               // Disects string into DepartureTime attributes
+               String[] RideArray = request.split(",");
+               // Making a ride object
+               Ride ride = new Ride();
+               ride.driver.setEmail(RideArray[0]);
+               ride.setDepartureYear(RideArray[1]);
+               ride.setDepartureMonth(RideArray[2]);
+               ride.setDepartureDay(RideArray[3]);
+               ride.setDepartureHour(RideArray[4]);
+               ride.setDepartureMinute(RideArray[5]);
+               
+
+               // talks to database and saves the answer to string
+               String answer = dbsClient.createRide(ride);
+               // Adds \r\n in the end in order to tell the client where to stop reading
+               String response = answer + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               // Sends "Respond sent successfully to middleware view
+               controller.execute(0, new String[] { "Resposne sent successfully!" });
+            }
             /*if(clientText.equals("get")) {
                bInt = inFromClient.read(bArray);
                request = new String(bArray, 0, bInt, Charset.forName("ASCII"));

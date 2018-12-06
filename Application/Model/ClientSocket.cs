@@ -176,4 +176,25 @@ public class ClientSocket{
         System.Console.WriteLine(response);
         return response;
     }
+    public string CreateRide(string ride)
+    {
+        Send(this.client, "createRide");
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+
+        Send(this.client, ride);
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+        
+        return response;
+
+    }
 }
