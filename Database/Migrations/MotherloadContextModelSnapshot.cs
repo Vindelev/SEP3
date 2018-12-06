@@ -30,8 +30,6 @@ namespace Database.Migrations
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<string>("UserName");
-
                     b.HasKey("UserId");
 
                     b.ToTable("Users");

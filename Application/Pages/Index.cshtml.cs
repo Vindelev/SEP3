@@ -27,12 +27,12 @@ namespace Application.Pages
         }
 
         [HttpPost]  
-        public async Task<IActionResult> OnPostLoginAsync(string name, string password){
+        public async Task<IActionResult> OnPostLoginAsync(string email, string password){
             
             client = new ClientSocket();
             
-            var login = client.Login(name,password);
-            if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password)){
+            var login = client.Login(email,password);
+            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)){
                 ErrorMessage = "Please fill in both name and password.";
                 Message = true;
                 return Redirect("Index");
@@ -45,9 +45,14 @@ namespace Application.Pages
                 return Redirect("Index");
             }
             
-            else if(login.Equals("enter")){
+            else if(login.Equals("notfound")){
+                ErrorMessage = "User does not exist.";
+                Message = true;
+                return Redirect("Index");
+            }
+            else{
                 var identity = new ClaimsIdentity
-                (new[]{ new Claim(ClaimTypes.Name, name)}, 
+                (new[]{ new Claim(ClaimTypes.Name, login)}, 
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
                 var principal = new ClaimsPrincipal(identity);
@@ -55,11 +60,6 @@ namespace Application.Pages
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
 
-                return Redirect("Index");
-            }
-            else{
-                ErrorMessage = "User does not exist.";
-                Message = true;
                 return Redirect("Index");
             }   
         }

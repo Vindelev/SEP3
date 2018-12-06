@@ -19,8 +19,8 @@ namespace Database.Controllers
             {
                 // Create a new User if collection is empty,
                 // which means you can't delete all People.
-                motherload.Users.Add(new User { Name = "big", Password = "brother", 
-                Email = "test@test.org", PhoneNumber = "69696969", UserName="Mihail Kanchev"});
+                motherload.Users.Add(new User { Name = "Mihail Kanchev", Password = "bigbrother", 
+                Email = "test@test.org", PhoneNumber = "69696969"});
                 motherload.SaveChanges();
             }
         }
@@ -35,42 +35,41 @@ namespace Database.Controllers
 
         // GET api/users/{Name + , + Password}
         // Name[0] is user name, Name[1] is user password
-        [HttpGet("{Name}" , Name = "GetLogin")]
-        public ActionResult<String> Get(string Name)
+        [HttpGet("{Request}" , Name = "GetLogin")]
+        public ActionResult<String> Get(string Request)
         {
-            string[] user = Name.Split(",");
+            try{
+                string[] user = Request.Split(",");       
+                var account = motherload.Users.SingleOrDefault(Users => Users.Email == user[0]);
+                if(account == null){
+                    return "notfound";
+                }
+                else if (!(user[1].Equals(account.Password))){
+                    return "password";
+                }
+                else{
+                    return  account.Name;
+                }
+            }
+            catch(Exception e){
+                System.Console.WriteLine("heyo");
+                return "notfound";
+            }
 
-            var account = motherload.Users.SingleOrDefault(Users => Users.Name == user[0]);
-            if(account == null){
-                return NotFound();
-            }
-            else if (!(user[1].Equals(account.Password))){
-                return "password";
-            }
-            else{
-                return  "enter";
-            }
-           
         }
 
         // POST api/users
          [HttpPost]
         public ActionResult<String> Create([FromBody]User user){
             //creates user object from the request
-            //var user = JsonConvert.DeserializeObject<User>(userRequest);
-            //Checks if name,email or phone exists in database
-            bool userNameCheck = false;
+            //Checks if email or phone exists in database
             bool emailCheck = false;
             bool phoneCheck = false;
             
-            userNameCheck = motherload.Users.Any (User => User.UserName == user.UserName);
-            emailCheck = motherload.Users.Any (User => User.Email == user.Email);
-            phoneCheck = motherload.Users.Any (User => User.PhoneNumber == user.PhoneNumber);
+            emailCheck = motherload.Users.Any(User => User.Email == user.Email);
+            phoneCheck = motherload.Users.Any(User => User.PhoneNumber == user.PhoneNumber);
 
-            if(userNameCheck){
-                return "username";
-            }
-            else if(emailCheck){
+            if(emailCheck){
                 return "email";
             }
             else if(phoneCheck){

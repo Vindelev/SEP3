@@ -2,7 +2,7 @@
 
 namespace Database.Migrations
 {
-    public partial class Users : Migration
+    public partial class User : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,6 @@ namespace Database.Migrations
                 {
                     UserId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true)

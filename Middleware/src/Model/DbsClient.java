@@ -41,9 +41,8 @@ public class DbsClient
          return person; 
       }*/
       
-      public String login(String name, String password) {
-         Response response = client.target("http://localhost:5000/api/users/" + name
-               + "," + password).request("text/plain").get();
+      public String login(String user) {
+         Response response = client.target("http://localhost:5000/api/users/" + user).request("text/plain").get();
          String answer = response.readEntity(String.class);
          response.close();
          return answer;

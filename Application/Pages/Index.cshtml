@@ -1,34 +1,28 @@
 @page
 @model IndexModel
 
-@if(User.Identity.IsAuthenticated)
-{
-    <div>
+
+    @if(User.Identity.IsAuthenticated)
+    {
+    
+      <div>
         <p>Hello, @User.Identity.Name !</p>
 
         <form method="post" asp-page-handler="Logout">
             <button type="submit">Log out</button>
         </form>
-    </div>
-}
-else
-{
-    if(true) {
-        Model.SetMessageToFalse();
-        
-        <div class="alert alert-warning alert-dismissable" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="color: white;">×</span></button>
-            <p class="alert-body">@Model.ErrorMessage</p>
-        </div>
+      </div>
     }
-     <div>
+    else
+    {
+       <div>
          <p>Enter your name and password to log in:</p>
 
          <form method="post" asp-page-handler="Login">
-             <label for="Name">Name</label>
-             <input type="text" id="Name" name ="name"/>
+             <label for="Email">Email</label>
+             <input type="text" id="Email" name ="email"/>
              <label for="Password">Password</label>
-             <input type="text" id="Password" name ="password"/>
+             <input type="password" id="Password" name ="password"/>
              <button type="submit">Log in</button>
          </form>
      </div>
@@ -38,4 +32,4 @@ else
              <button type="submit">Register</button>
          </form>
      </div>
-}
+    }

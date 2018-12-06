@@ -15,11 +15,10 @@ public class RegisterModel : PageModel{
        
        
         [HttpPost]
-        public async Task<IActionResult> OnPostRegisterAsync
+        public IActionResult OnPostRegister
         (String userName, String password, String confirm, String email, String phone, String name){
             
             client = new ClientSocket();
-
             string user = userName;
             user += "," + password;
             user += "," + email;

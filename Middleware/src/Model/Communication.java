@@ -72,10 +72,8 @@ public class Communication implements Runnable
                //Read the next message
                bInt = inFromClient.read(bArray);
                String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
-               //By protocol name and password are split with a ","
-               String[] account = request.split(",");
                //Talks to database and saves the answer to string
-               String answer = dbsClient.login(account[0], account[1]);
+               String answer = dbsClient.login(request);
                //Adds \r\n in the end in order to tell client
                //where to stop reading
                response = answer + "\r\n";

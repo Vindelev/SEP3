@@ -133,7 +133,7 @@ public class ClientSocket{
         client.Close();
     }
 
-    public String Login(String name, String password){
+    public String Login(String email, String password){
         Send(this.client, "login");
         sendDone.WaitOne();
         sendDone.Reset();
@@ -141,9 +141,8 @@ public class ClientSocket{
         Receive(this.client);
         receiveDone.WaitOne();
         receiveDone.Reset();
-        System.Console.WriteLine(response);
         
-        Send(this.client, name + "," + password);
+        Send(this.client, email + "," + password);
         sendDone.WaitOne();
         sendDone.Reset();
 
@@ -163,6 +162,7 @@ public class ClientSocket{
         Receive(this.client);
         receiveDone.WaitOne();
         receiveDone.Reset();
+
         System.Console.WriteLine(response);
         
         Send(this.client, user);
