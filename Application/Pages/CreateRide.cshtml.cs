@@ -19,7 +19,7 @@ namespace Application.Pages
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnPostCreateRideAsync
+        public IActionResult OnPostCreateRide
         (int seatsAmount, string startPoint, string destCity, string destAddr, string departureYear, string departureMonth, 
         string departureDay, string departureHour, string departureMinute)
         {

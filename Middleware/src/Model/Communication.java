@@ -127,7 +127,7 @@ public class Communication implements Runnable
                controller.execute(0,
                      new String[] { socket.getRemoteSocketAddress().toString() + "requested ride validation" });
                bInt = inFromClient.read(bArray);
-               request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
                // Disects string into DepartureTime attributes
                String[] RideArray = request.split(",");
                // Making a ride object

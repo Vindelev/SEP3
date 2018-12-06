@@ -73,7 +73,7 @@ using Application;
             WriteLiteral(" !</p>\r\n\r\n        ");
             EndContext();
             BeginContext(151, 115, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e12c9d6d9a4146daa7c1739797059c22", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "87caaa41e1bb421fb5fb3ba0d24f09fc", async() => {
                 BeginContext(197, 62, true);
                 WriteLiteral("\r\n            <button type=\"submit\">Log out</button>\r\n        ");
                 EndContext();
@@ -109,7 +109,7 @@ using Application;
             WriteLiteral("       <div>\r\n         <p>Enter your name and password to log in:</p>\r\n\r\n         ");
             EndContext();
             BeginContext(388, 345, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9b1f21ee97fd4af29d889555f28e3bc9", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ae3f78f03f424b21bf1803b8daa8d36f", async() => {
                 BeginContext(433, 293, true);
                 WriteLiteral(@"
              <label for=""Email"">Email</label>
@@ -144,7 +144,7 @@ using Application;
             WriteLiteral("     <div>\r\n         ");
             EndContext();
             BeginContext(771, 96, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ec5b8885792e4d039003b2e384bd1dea", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7167204816eb46d1b74f1b62122fb9f9", async() => {
                 BeginContext(795, 65, true);
                 WriteLiteral("\r\n             <button type=\"submit\">Register</button>\r\n         ");
                 EndContext();
