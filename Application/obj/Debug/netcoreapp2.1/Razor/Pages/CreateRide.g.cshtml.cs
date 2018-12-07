@@ -51,7 +51,7 @@ using Application;
             WriteLiteral("\r\n\r\n\r\n    <div>\r\n        <p>Please enter the following information to create a ride: </p>\r\n\r\n        ");
             EndContext();
             BeginContext(132, 1240, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "461327f443664d83b0015462d3d23d71", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b9ee2c765fa44da6976fcfc48c78c216", async() => {
                 BeginContext(182, 1183, true);
                 WriteLiteral(@"
             <label for=""SeatsAmount"">Amount of seats</label>

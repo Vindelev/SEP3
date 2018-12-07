@@ -15,21 +15,26 @@
     }
     else
     {
-       <div>
-         <p>Enter your name and password to log in:</p>
+        <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
 
-         <form method="post" asp-page-handler="Login">
-             <label for="Email">Email</label>
-             <input type="text" id="Email" name ="email"/>
-             <label for="Password">Password</label>
-             <input type="password" id="Password" name ="password"/>
-             <button type="submit">Log in</button>
-         </form>
-     </div>
-
-     <div>
-         <form action="Register">
-             <button type="submit">Register</button>
-         </form>
-     </div>
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	    <div class="modal-dialog">
+				<div class="loginmodal-container">
+				    <h1>Login to Your Account</h1><br>
+				    <form method="post" asp-page-handler="Login">
+					    <input type="text" name="email" placeholder="Email">
+					    <input type="password" name="password" placeholder="Password">
+					    <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+				    </form>
+					
+				    <div class="login-help">
+					    <a href="Register">Register</a>
+				    </div>
+				</div>
+			</div>
+		</div>
+        
     }
+
+
+    

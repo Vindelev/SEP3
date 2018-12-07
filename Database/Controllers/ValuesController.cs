@@ -52,7 +52,6 @@ namespace Database.Controllers
                 }
             }
             catch(Exception e){
-                System.Console.WriteLine("heyo");
                 return "notfound";
             }
 

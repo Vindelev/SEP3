@@ -3,8 +3,9 @@ package Model;
 public class Ride {
 
    public User driver;
-   public String RideId;
-   public String SeatsAmount;
+   
+
+   public int Seats;
    public String DeparturePoint;
    public String DestCity;
    public String DestAddr;
@@ -13,103 +14,75 @@ public class Ride {
    public String DepartureDay;
    public String DepartureHour;
    public String DepartureMinute;
+   public User[] passangers;
 
-   public User getDriver() {
-      return driver;
-   }
-
-   public void setDriver(User driver) {
+   public Ride(User driver, int Seats) {
       this.driver = driver;
+      this.Seats = Seats;
+      passangers = new User[Seats];
+   }
+   
+   public int getSeats()
+   {
+      return Seats;
    }
 
-   public String getRideId() {
-      return RideId;
+   public void setSeats(int seats)
+   {
+      Seats = seats;
    }
 
-   public void setRideId(String rideId) {
-      RideId = rideId;
-   }
-
-   public String getSeatsAmount() {
-      return SeatsAmount;
-   }
-
-   public void setSeatsAmount(String seatsAmount) {
-      SeatsAmount = seatsAmount;
-   }
-
-   public String getStartPoint() {
+   public String getDeparturePoint()
+   {
       return DeparturePoint;
    }
 
-   public void setStartPoint(String startPoint) {
-      DeparturePoint = startPoint;
-   }
-
-   public String getDestCity() {
-      return DestCity;
-   }
-
-   public void setDestCity(String destCity) {
-      DestCity = destCity;
-   }
-
-   public String getDestAddr() {
-      return DestAddr;
-   }
-
-   public void setDestAddr(String destAddr) {
-      DestAddr = destAddr;
-   }
-
-   public String getDeparturePoint() {
-      return DeparturePoint;
-   }
-
-   public void setDeparturePoint(String departurePoint) {
+   public void setDeparturePoint(String departurePoint)
+   {
       DeparturePoint = departurePoint;
    }
 
-   public String getDepartureYear() {
-      return DepartureYear;
+   public String getDestCity()
+   {
+      return DestCity;
    }
 
-   public void setDepartureYear(String departureYear) {
-      DepartureYear = departureYear;
+   public void setDestCity(String destCity)
+   {
+      DestCity = destCity;
    }
 
-   public String getDepartureMonth() {
-      return DepartureMonth;
+   public String getDestAddr()
+   {
+      return DestAddr;
    }
 
-   public void setDepartureMonth(String departureMonth) {
-      DepartureMonth = departureMonth;
+   public void setDestAddr(String destAddr)
+   {
+      DestAddr = destAddr;
    }
 
-   public String getDepartureDay() {
-      return DepartureDay;
+   public int getFreeSeats() {
+      return Seats - passangers.length;
    }
-
-   public void setDepartureDay(String departureDay) {
-      DepartureDay = departureDay;
-   }
-
-   public String getDepartureHour() {
-      return DepartureHour;
-   }
-
-   public void setDepartureHour(String departureHour) {
-      DepartureHour = departureHour;
-   }
-
-   public String getDepartureMinute() {
-      return DepartureMinute;
-   }
-
-   public void setDepartureMinute(String departureMinute) {
-      DepartureMinute = departureMinute;
-   }
-
    
-
+   public void addPassanger(User user) {
+      passangers[passangers.length] = user;
+   }
+   
+   public void removePassanger(User user) {
+      for(int i =0; i < passangers.length; i++) {
+        if(passangers[i].getEmail().equals(user.getEmail())) {
+           for(int n = i; n < passangers.length; n++) {
+              if(n+1 <= passangers.length) {
+                 passangers[n] = passangers[n+1];
+              }
+              else {
+                 break;
+              }
+           }
+        }
+      }
+   }
 }
+  
