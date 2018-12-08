@@ -1,22 +1,101 @@
 @page
 @model IndexModel
+@{
+    Layout = "_Layout";
+}
 
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="Index">WeRide</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    @if(User.Identity.IsAuthenticated){
+                        <li class="active"><a href="CreateRide">Create a ride</a></li>
+                    }
+                    <li><a href="#">About</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                @if(!(@User.Identity.IsAuthenticated)){
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+			                <ul id="login-dp" class="dropdown-menu">
+				                <li>
+                                    <div class="row">
+                                        <form method="post" asp-page-handler="Login">
+
+                                            <div class="form-group">
+                                                <input type="text" name="Email" class="form-control appButtons" placeholder="Email">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="password" name="Password" class="form-control appButtons" placeholder="Password">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success btn-block appButtons">Login</button>
+                                            </div>
+
+                                        </form>
+
+                                        <div class="form-group">
+                                            <a href="Register"><button type="submit" class="btn btn-primary btn-block appButtons" >Register</button></a>
+                                        </div>
+                                    </div>     
+				                </li>
+			                </ul>
+                        </li>  
+                }
+                else{
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>@User.Identity.Name</b> <span class="caret"></span></a>
+			                <ul id="login-dp" class="dropdown-menu">
+				                <li>
+                                    <div class="row">
+                                         <div class="form-group">
+                                            <button type="submit" class="btn btn-info btn-block appButtons">Account</button>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <form method="post" asp-page-handler="Logout">
+                                                <button type="submit" class="btn btn-danger btn-block appButtons">Logout</button>
+                                            </form>
+                                        </div>
+                                    </div>
+				                </li>
+			                </ul>
+                        </li>    
+                }
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 
     @if(User.Identity.IsAuthenticated)
     {
     
       <div>
         @{Model.GenerateCreatedRides();}
-        <p>Hello, @User.Identity.Name!</p>
-        <table class="table">
+        <table class="table rides">
             <thead>
-                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Driver)</th>
-                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Seats)</th>
-                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Date)</th>
-                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Time)</th>
-                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].DeparturePoint)</th>
-                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].DestinationCity)</th>
-                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].DestinationAddr)</th>
+                <th>Driver</th>
+                <th>Seats</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Departure point</th>
+                <th>Destination city</th>
+                <th>Destination address</th>
+                <th></th>
             </thead>
             <tbody>
                 @foreach(var ride in Model.rides.Rides){
@@ -28,39 +107,20 @@
                         <td>@Html.DisplayFor(m => ride.DeparturePoint)</td>
                         <td>@Html.DisplayFor(m => ride.DestinationCity)</td>
                         <td>@Html.DisplayFor(m => ride.DestinationAddr)</td>
+                        <td></td>
                     </tr>
                 }
             </tbody>
         </table>
-        <form method="post" asp-page-handler="Logout">
-            <button type="submit">Log out</button>
-        </form>
-        <a href="CreateRide"> Create a ride</a>
-      </div>
+    </div>
     }
     else
     {
-        <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-
-        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	    <div class="modal-dialog">
-				<div class="loginmodal-container">
-				    <h1>Login to Your Account</h1><br>
-				    <form method="post" asp-page-handler="Login">
-					    <input type="text" name="email" placeholder="Email">
-					    <input type="password" name="password" placeholder="Password">
-					    <input type="submit" name="login" class="login loginmodal-submit" value="Login">
-				    </form>
-					
-				    <div class="login-help">
-					    <a href="Register">Register</a>
-				    </div>
-				</div>
-			</div>
-		</div>
+        
         
         
     }
+
 
 
     

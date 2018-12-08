@@ -51,7 +51,7 @@ using Application;
             WriteLiteral("\r\n\r\n\r\n   <div class=\"container\">\r\n\r\n        <div class=\"form-sec\">\r\n            <h4>Create a ride</h4>\r\n  \r\n            ");
             EndContext();
             BeginContext(151, 2290, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9c8e6fb882204e0083bed997c173c857", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d3d7016a2d68456a8fb1195112f52801", async() => {
                 BeginContext(201, 2233, true);
                 WriteLiteral(@"
 
