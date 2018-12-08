@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Database.Controllers
-{
-    [Route("api/users")]
+{   
     [ApiController]
-    public class ValuesController : ControllerBase
+    [Route("api/users")]
+    public class UsersController : ControllerBase
     {
         private MotherloadContext motherload;
 
-        public ValuesController(MotherloadContext motherload){
+        public UsersController(MotherloadContext motherload){
             this.motherload = motherload;
             if (motherload.Users.Count() == 0)
             {
@@ -35,10 +35,11 @@ namespace Database.Controllers
 
         // GET api/users/{Name + , + Password}
         // Name[0] is user name, Name[1] is user password
-        [HttpGet("{Request}" , Name = "GetLogin")]
-        public ActionResult<String> Get(string Request)
+        [HttpGet("{Request}", Name = "GetLogin")]
+        public ActionResult<String> Login(string Request)
         {
             try{
+                System.Console.WriteLine("heyyy");
                 string[] user = Request.Split(",");       
                 var account = motherload.Users.SingleOrDefault(Users => Users.Email == user[0]);
                 if(account == null){
@@ -58,8 +59,9 @@ namespace Database.Controllers
         }
 
         // POST api/users
-         [HttpPost]
-        public ActionResult<String> Create([FromBody]User user){
+        
+        [HttpPost]
+        public ActionResult<String> Register([FromBody]User user){
             //creates user object from the request
             //Checks if email or phone exists in database
             bool emailCheck = false;

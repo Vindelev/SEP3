@@ -6,11 +6,36 @@
     {
     
       <div>
-        <p>Hello, @User.Identity.Name !</p>
-
+        @{Model.GenerateCreatedRides();}
+        <p>Hello, @User.Identity.Name!</p>
+        <table class="table">
+            <thead>
+                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Driver)</th>
+                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Seats)</th>
+                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Date)</th>
+                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].Time)</th>
+                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].DeparturePoint)</th>
+                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].DestinationCity)</th>
+                <th>@Html.DisplayNameFor(m => m.rides.Rides[0].DestinationAddr)</th>
+            </thead>
+            <tbody>
+                @foreach(var ride in Model.rides.Rides){
+                    <tr>
+                        <td>@Html.DisplayFor(m => ride.Driver)</td>
+                        <td>@Html.DisplayFor(m => ride.Seats)</td>
+                        <td>@Html.DisplayFor(m => ride.Date)</td>
+                        <td>@Html.DisplayFor(m => ride.Time)</td>
+                        <td>@Html.DisplayFor(m => ride.DeparturePoint)</td>
+                        <td>@Html.DisplayFor(m => ride.DestinationCity)</td>
+                        <td>@Html.DisplayFor(m => ride.DestinationAddr)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
         <form method="post" asp-page-handler="Logout">
             <button type="submit">Log out</button>
         </form>
+        <a href="CreateRide"> Create a ride</a>
       </div>
     }
     else
@@ -33,6 +58,7 @@
 				</div>
 			</div>
 		</div>
+        
         
     }
 

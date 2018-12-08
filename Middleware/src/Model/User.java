@@ -4,7 +4,6 @@ public class User
 {
    public String UserId;
    public String Name;
-   public String UserName;
    public String Password;
    public String PhoneNumber;
    public String Email;
@@ -17,14 +16,6 @@ public class User
    public void setUserId(String userId)
    {
       UserId = userId;
-   }
-   public String getUserName()
-   {
-      return UserName;
-   }
-   public void setUserName(String userName)
-   {
-      UserName = userName;
    }
    public String getName()
    {

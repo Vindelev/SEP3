@@ -12,52 +12,45 @@ namespace Application.Pages
 {
     public class CreateRideModel : PageModel
     {
+       
         private ClientSocket client;
-
         public CreateRideModel(){
 
         }
 
         [HttpPost]
         public IActionResult OnPostCreateRide
-        (int seatsAmount, string startPoint, string destCity, string destAddr, string departureYear, string departureMonth, 
-        string departureDay, string departureHour, string departureMinute)
-        {
-            client = new ClientSocket();
-
-            string ride = seatsAmount.ToString();
-            ride += "," + startPoint;
-            ride += "," + destCity;
-            ride += "," + destAddr;
-            ride += "," + departureYear;
-            ride += "," + departureMonth;
-            ride += "," + departureDay;
-            ride += "," + departureHour;
-            ride += "," + departureMinute;
-
-            var answer = client.CreateRide(ride);
-             
-            if(string.IsNullOrEmpty(seatsAmount.ToString())||string.IsNullOrEmpty(startPoint)||string.IsNullOrEmpty(destCity)||
-            string.IsNullOrEmpty(destAddr)||string.IsNullOrEmpty(departureYear)||string.IsNullOrEmpty(departureMonth)||
-            string.IsNullOrEmpty(departureDay)||string.IsNullOrEmpty(departureHour)||string.IsNullOrEmpty(departureMinute))
+        (string seats, string start, string destC, string destA, string hour, string min, string date, string comment){
+            
+            if(string.IsNullOrEmpty(seats)||string.IsNullOrEmpty(start)||string.IsNullOrEmpty(destC)||
+            string.IsNullOrEmpty(destA)||string.IsNullOrEmpty(date)||string.IsNullOrEmpty(hour)||string.IsNullOrEmpty(min))
             {
                 return Redirect("CreateRide");
             }
+            else{
+                
+                string time = hour + ":" + min;
 
-            if(answer.Equals("created"))
-            {
-                return Redirect("Index");
+                string ride = User.FindFirst(ClaimTypes.Email)?.Value;
+                ride += "," + seats;
+                ride += "," + start;
+                ride += "," + destC;
+                ride += "," + destA;
+                ride += "," + date;
+                ride += "," + time;
+                ride += "," + comment;
+
+                client = new ClientSocket();
+                var answer = client.CreateRide(ride);
+                
+                if(answer == "created"){
+                    return Redirect("Index");
+                }
+                else{
+                    return Redirect("CreateRide");
+                }
+                
             }
-            else
-            {
-                return Redirect("CreateRide");
-            }
-
-           
-        }
-
-        
-    }
-
-    
+        }   
+    } 
 }

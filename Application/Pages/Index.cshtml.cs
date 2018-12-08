@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace Application.Pages
 {
@@ -14,16 +16,9 @@ namespace Application.Pages
     {
         private ClientSocket client;
 
-        public String ErrorMessage { get; set;}
-
-        public bool Message { get; set;}
+        public RideList rides;
 
         public IndexModel(){
-            
-        }
-
-        public void SetMessageToFalse(){
-            Message = false;
         }
 
         [HttpPost]  
@@ -33,33 +28,29 @@ namespace Application.Pages
             
             var login = client.Login(email,password);
             if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)){
-                ErrorMessage = "Please fill in both name and password.";
-                Message = true;
                 return Redirect("Index");
             }
             else if(login.Equals("password")){
                 
-                ErrorMessage = "Wrong password.";
-                Message = true;
-                System.Console.WriteLine(ErrorMessage);
                 return Redirect("Index");
             }
             
             else if(login.Equals("notfound")){
-                ErrorMessage = "User does not exist.";
-                Message = true;
                 return Redirect("Index");
             }
             else{
+                try{
                 var identity = new ClaimsIdentity
                 (new[]{ new Claim(ClaimTypes.Name, login)}, 
                 CookieAuthenticationDefaults.AuthenticationScheme);
-
+                identity.AddClaim(new Claim(ClaimTypes.Email, email));
                 var principal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-
+                }
+                catch{
+                    return Redirect("Index");
+                } 
                 return Redirect("Index");
             }   
         }
@@ -68,6 +59,11 @@ namespace Application.Pages
         public async Task<IActionResult> OnPostLogoutAsync(){
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("Index");
+        }
+
+        public void GenerateCreatedRides(){
+            client = new ClientSocket();
+            rides = JsonConvert.DeserializeObject<RideList>(client.GetCreatedRides(User.FindFirst(ClaimTypes.Email)?.Value));
         }
     }
 

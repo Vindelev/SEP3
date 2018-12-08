@@ -2,77 +2,37 @@ package Model;
 
 public class Ride {
 
-   public User driver;
-   
-
+   public String Driver;
    public int Seats;
    public String DeparturePoint;
-   public String DestCity;
-   public String DestAddr;
-   public String DepartureYear;
-   public String DepartureMonth;
-   public String DepartureDay;
-   public String DepartureHour;
-   public String DepartureMinute;
-   public User[] passangers;
+   public String DestinationCity;
+   public String DestinationAddr;
+   public String Date;
+   public String Time;
+   public String[] passangers;
+   public String comment;
 
-   public Ride(User driver, int Seats) {
-      this.driver = driver;
-      this.Seats = Seats;
-      passangers = new User[Seats];
+
+   public Ride(String driver, String Seats) {
+      this.Driver = driver;
+      this.Seats = Integer.parseInt(Seats);
+      passangers = new String[this.Seats];
+   }
+   public String getDriver() {
+      return Driver;
    }
    
-   public int getSeats()
-   {
-      return Seats;
-   }
-
-   public void setSeats(int seats)
-   {
-      Seats = seats;
-   }
-
-   public String getDeparturePoint()
-   {
-      return DeparturePoint;
-   }
-
-   public void setDeparturePoint(String departurePoint)
-   {
-      DeparturePoint = departurePoint;
-   }
-
-   public String getDestCity()
-   {
-      return DestCity;
-   }
-
-   public void setDestCity(String destCity)
-   {
-      DestCity = destCity;
-   }
-
-   public String getDestAddr()
-   {
-      return DestAddr;
-   }
-
-   public void setDestAddr(String destAddr)
-   {
-      DestAddr = destAddr;
-   }
-
    public int getFreeSeats() {
       return Seats - passangers.length;
    }
    
-   public void addPassanger(User user) {
+   public void addPassanger(String user) {
       passangers[passangers.length] = user;
    }
    
-   public void removePassanger(User user) {
+   public void removePassanger(String user) {
       for(int i =0; i < passangers.length; i++) {
-        if(passangers[i].getEmail().equals(user.getEmail())) {
+        if(passangers[i].equals(user)) {
            for(int n = i; n < passangers.length; n++) {
               if(n+1 <= passangers.length) {
                  passangers[n] = passangers[n+1];
@@ -83,6 +43,65 @@ public class Ride {
            }
         }
       }
+   }
+   
+   public String getComment()
+   {
+      return comment;
+   }
+
+   public void setComment(String comment)
+   {
+      this.comment = comment;
+   }
+   
+   public String getDeparturePoint()
+   {
+      return DeparturePoint;
+   }
+
+   public void setDeparturePoint(String departurePoint)
+   {
+      DeparturePoint = departurePoint;
+   }
+   public String getDestinationCity()
+   {
+      return DestinationCity;
+   }
+
+   public void setDestinationCity(String destCity)
+   {
+      DestinationCity = destCity;
+   }
+
+   public String getDestinationAddr()
+   {
+      return DestinationAddr;
+   }
+
+   public void setDestinationAddr(String destAddr)
+   {
+      DestinationAddr = destAddr;
+   }
+
+   public String getDate()
+   {
+      return Date;
+   }
+
+   public void setDate(String date)
+   {
+      Date = date;
+   }
+
+   public String getTime()
+   {
+      return Time;
+   }
+
+   public void setTime(String time)
+   {
+      Time = time;
    }
 }
   

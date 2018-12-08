@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -56,9 +58,15 @@ public class DbsClient
          return answer;
       }
       public String createRide(Ride ride) {
-         System.out.println(ride);
          Response response = client.target("http://localhost:5000/api/rides/").request("text/plain")
                .post(Entity.json(ride));
+         String answer = response.readEntity(String.class);
+         response.close();
+         return answer;
+      }
+      
+      public String getCreatedRides(String email){
+         Response response = client.target("http://localhost:5000/api/rides/" + email).request("text/plain").get();
          String answer = response.readEntity(String.class);
          response.close();
          return answer;

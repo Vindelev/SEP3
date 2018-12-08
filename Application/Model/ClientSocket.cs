@@ -197,4 +197,23 @@ public class ClientSocket{
         return response;
 
     }
+    public string GetCreatedRides(string email){
+        Send(this.client, "getCreatedRides");
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+
+        Send(this.client, email);
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+        
+        return response;
+    }
 }

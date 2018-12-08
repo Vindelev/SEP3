@@ -1,4 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto);
 
 /****** LOGIN MODAL ******/
 .loginmodal-container {
@@ -95,3 +94,8 @@
   font-size: 12px;
 }
 
+
+.row {
+    
+  width: 50%;
+}

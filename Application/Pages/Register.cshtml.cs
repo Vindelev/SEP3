@@ -19,8 +19,7 @@ public class RegisterModel : PageModel{
         (String userName, String password, String confirm, String email, String phone, String name){
             
             client = new ClientSocket();
-            string user = userName;
-            user += "," + password;
+            string user = password;
             user += "," + email;
             user += "," + phone;
             user += "," + name;
