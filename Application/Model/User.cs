@@ -2,8 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 public class User{
-    [DataMember]
-    public string UserId { get; set;}
+
     [JsonProperty("Name")]
     public string Name { get; set;}
     [JsonProperty("Password")]

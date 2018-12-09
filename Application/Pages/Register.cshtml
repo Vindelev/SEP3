@@ -1,7 +1,68 @@
 @page
 @model RegisterModel
+	@{if(User.Identity.IsAuthenticated){
+		Response.Redirect("Index");
+	}}
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="Index">WeRide</a>
+            </div>
 
-     <div class="container">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">About</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+			            <ul id="login-dp" class="dropdown-menu">
+				            <li>
+                                <div class="row">
+                                    <form method="post" asp-page-handler="Login">
+
+                                        <div class="form-group">
+                                            <input type="text" name="Email" class="form-control appButtons" placeholder="Email">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" name="Password" class="form-control appButtons" placeholder="Password">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success btn-block appButtons">Login</button>
+                                        </div>
+
+                                    </form>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block appButtons" action="Register.cshtml">Register</button>
+                                    </div>
+                                </div>     
+				            </li>
+			            </ul>
+                    </li>  
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+	@if(Model.ShowMessage){
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span></span></button>
+            @Model.Message 
+        </div>
+    }
+	 
+	 <div class="container">
 			<div class="row main">
 				<div class="panel-heading">
 	               <div class="panel-title text-center">
@@ -12,16 +73,6 @@
 				<div class="main-login main-center">
 					<form class="form-horizontal" method="post" asp-page-handler="Register">
 						
-						<div class="form-group">
-							<label for="userName" class="cols-sm-2 control-label">Username</label>
-							<div class="cols-sm-10">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="userName" id="userName"  placeholder="Enter your user name"/>
-								</div>
-							</div>
-						</div>
-
 						<div class="form-group">
 							<label for="email" class="cols-sm-2 control-label">Your Email</label>
 							<div class="cols-sm-10">
@@ -75,9 +126,6 @@
 						<div class="form-group ">
 							<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
 						</div>
-						<div class="login-register">
-				            <a href="https://localhost:4201">Login</a>
-				         </div>
 					</form>
 				</div>
 			</div>

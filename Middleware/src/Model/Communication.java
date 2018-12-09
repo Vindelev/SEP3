@@ -100,11 +100,10 @@ public class Communication implements Runnable
                String[] userArray = request.split(",");
                //Makes User object and sets attributes
                User user = new User();
-               user.setUserName(userArray[0]);
-               user.setPassword(userArray[1]);
-               user.setEmail(userArray[2]);
-               user.setPhoneNumber(userArray[3]);
-               user.setName(userArray[4]);
+               user.setPassword(userArray[0]);
+               user.setEmail(userArray[1]);
+               user.setPhoneNumber(userArray[2]);
+               user.setName(userArray[3]);
                user.setUserId(null);
                //Serializes User object
               //gson = new Gson();
@@ -119,6 +118,102 @@ public class Communication implements Runnable
                outToClient.write(responseBytes);
                //Sends "Respond sent succsessfully" to middleware view
                controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
+            }
+            else if(clientText.equals("createRide")){
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested to create a ride"});
+               //Send a response saying that you received the login message
+               //and the client can proceed with its request.
+               String response = "ok" + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               bInt = inFromClient.read(bArray);
+               String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               
+               //Disects string into User attributes
+               String[] rideArray = request.split(",");
+               //Makes User object and sets attributes
+               Ride ride = new Ride(rideArray[0],rideArray[1]);
+               ride.setDeparturePoint(rideArray[2]);
+               ride.setDestinationCity(rideArray[3]);
+               ride.setDestinationAddr(rideArray[4]);
+               ride.setDate(rideArray[5]);
+               ride.setTime(rideArray[6]);
+               ride.setComment(rideArray[7]);
+               //Talks to database and saves the answer to string
+               String answer = dbsClient.createRide(ride);
+               //Adds \r\n in the end in order to tell client
+               //where to stop reading
+               response = answer + "\r\n";
+               responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               //Sends "Respond sent succsessfully" to middleware view
+               controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
+            }
+            else if(clientText.equals("getCreatedRides")){
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested created rides list."});
+               //Send a response saying that you received the login message
+               //and the client can proceed with its request.
+               String response = "ok" + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               bInt = inFromClient.read(bArray);
+               String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               
+               //Disects string into User attributes
+               //Makes User object and sets attributes
+               
+               //Talks to database and saves the answer to string
+               String answer = dbsClient.getCreatedRides(request);
+               //Adds \r\n in the end in order to tell client
+               //where to stop reading
+               response = answer + "\r\n";
+               responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               //Sends "Respond sent succsmaroonessfully" to middleware view
+               controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
+            }
+            else if(clientText.equals("getRides")) {
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested ride list."});
+               
+               String answer = dbsClient.getRides();
+               String response = answer + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               
+               controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
+            }
+            
+            else if(clientText.equals("deleteRide")) {
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested to delete a ride"});
+               //Send a response saying that you received the login message
+               //and the client can proceed with its request.
+               String response = "ok" + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               bInt = inFromClient.read(bArray);
+               String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               System.out.println(request);
+               gson = new Gson();
+               Ride ride = gson.fromJson(request, Ride.class);
+               
+               dbsClient.deleteRide(ride);
+               controller.execute(0, new String[] {"The request to delete the ride has been completed!"});
                socket.close();
                runny = false;
                break;
