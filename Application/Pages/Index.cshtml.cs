@@ -23,17 +23,22 @@ namespace Application.Pages
 
         public bool ShowMessage => !string.IsNullOrEmpty(Message);
 
+        public void GenerateRides(){
+            client = new ClientSocket();
+            rides = JsonConvert.DeserializeObject<RideList>(client.GetRides());
+        }
+
         [HttpPost]  
         public async Task<IActionResult> OnPostLoginAsync(string email, string password){
             
-            client = new ClientSocket();
-            
-            var login = client.Login(email,password);
             if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)){
                 Message = "Please fill in both email and password.";
                 return Redirect("Index");
             }
-            else if(login.Equals("password")){
+            client = new ClientSocket();
+            
+            var login = client.Login(email,password);
+            if(login.Equals("password")){
                 
                 Message ="Wrong password.";
                 return Redirect("Index");
@@ -58,7 +63,6 @@ namespace Application.Pages
                     Message = "Something went wront :( \n Try again later.";
                     return Redirect("Index");
                 } 
-                Message="Welcome back ";
                 return Redirect("Index");
             }   
         }
@@ -69,16 +73,6 @@ namespace Application.Pages
             return Redirect("Index");
         }
 
-        public void GenerateCreatedRides(){
-            try{
-                client = new ClientSocket();
-                rides = JsonConvert.DeserializeObject<RideList>(client.GetCreatedRides(User.FindFirst(ClaimTypes.Email)?.Value));
-            }
-            catch(Exception e){
-                Message="Something went wrong :( \n Please reload the page or try again later.";
-            }
-            
-        }
     }
 
     

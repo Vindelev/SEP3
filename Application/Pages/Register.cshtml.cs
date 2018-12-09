@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 public class RegisterModel : PageModel{
     private ClientSocket client;
-
+    [TempData]
     public string Message {get; set;}
 
     public bool ShowMessage => !string.IsNullOrEmpty(Message);
@@ -64,11 +64,26 @@ public class RegisterModel : PageModel{
             
         }
         [HttpPost]  
-        public async Task OnPostLoginAsync(string email, string password){
+        public async Task<IActionResult> OnPostLoginAsync(string email, string password){
             
+            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)){
+                Message = "Please fill in both email and password.";
+                return Redirect("Register");
+            }
             client = new ClientSocket();
-            
             var login = client.Login(email,password);
+            if(login.Equals("password")){
+                
+                Message ="Wrong password.";
+                return Redirect("Register");
+            }
+            
+            else if(login.Equals("notfound")){
+
+                Message = "User has not been found. Are you sure the email is correct?";
+                return Redirect("Register");
+            }
+            else{
                 try{
                 var identity = new ClaimsIdentity
                 (new[]{ new Claim(ClaimTypes.Name, login)}, 
@@ -78,9 +93,12 @@ public class RegisterModel : PageModel{
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                 }
-                catch(Exception e){
-                    
+                catch{
+                    Message = "Something went wront :( \n Try again later.";
+                    return Redirect("Register");
                 } 
+                return Redirect("Index");
+            }   
              
         }
 }

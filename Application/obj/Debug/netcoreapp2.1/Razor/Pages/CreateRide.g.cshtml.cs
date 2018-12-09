@@ -109,7 +109,7 @@ using Application;
                                         ");
             EndContext();
             BeginContext(1734, 877, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6f388b809c4548bab26060c505906a8a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd165298abfb453ca14b8968aae1205a", async() => {
                 BeginContext(1779, 825, true);
                 WriteLiteral(@"
 
@@ -186,7 +186,7 @@ using Application;
                                             ");
             EndContext();
             BeginContext(3746, 230, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "21ea0279812f4e2c8593f712897dbfdb", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1dea5907b2504150aa2dd20fd1efea82", async() => {
                 BeginContext(3792, 177, true);
                 WriteLiteral("\r\n                                                <button type=\"submit\" class=\"btn btn-danger btn-block appButtons\">Logout</button>\r\n                                            ");
                 EndContext();
@@ -220,7 +220,7 @@ using Application;
             WriteLiteral("                </ul>\r\n            </div><!-- /.navbar-collapse -->\r\n        </div><!-- /.container-fluid -->\r\n    </nav>\r\n\r\n\r\n   <div class=\"container\">\r\n\r\n        <div class=\"form-sec\">\r\n            <h4>Create a ride</h4>\r\n  \r\n            ");
             EndContext();
             BeginContext(4418, 2290, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6e3df7fb06554811aeb51679b4a6a6be", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7f990e8117d444aeb9bd03ce7169302e", async() => {
                 BeginContext(4468, 2233, true);
                 WriteLiteral(@"
 

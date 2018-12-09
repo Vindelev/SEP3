@@ -216,4 +216,31 @@ public class ClientSocket{
         
         return response;
     }
+
+    public string GetRides(){
+        Send(this.client, "getRides");
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+        
+        return response;
+    }
+    public void DeleteRide(Ride ride){
+        String request = JsonConvert.SerializeObject(ride);
+
+        Send(this.client, "deleteRide");
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+
+        Send(this.client, request);
+        sendDone.WaitOne();
+        sendDone.Reset();
+    }
 }

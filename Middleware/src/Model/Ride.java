@@ -9,8 +9,9 @@ public class Ride {
    public String DestinationAddr;
    public String Date;
    public String Time;
-   public String[] passangers;
    public String comment;
+   public String[] passangers;
+   
 
 
    public Ride(String driver, String Seats) {
@@ -20,10 +21,6 @@ public class Ride {
    }
    public String getDriver() {
       return Driver;
-   }
-   
-   public int getFreeSeats() {
-      return Seats - passangers.length;
    }
    
    public void addPassanger(String user) {

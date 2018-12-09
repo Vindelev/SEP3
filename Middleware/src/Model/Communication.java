@@ -136,7 +136,7 @@ public class Communication implements Runnable
                //Disects string into User attributes
                String[] rideArray = request.split(",");
                //Makes User object and sets attributes
-               Ride ride = new Ride(rideArray[0], rideArray[1]);
+               Ride ride = new Ride(rideArray[0],rideArray[1]);
                ride.setDeparturePoint(rideArray[2]);
                ride.setDestinationCity(rideArray[3]);
                ride.setDestinationAddr(rideArray[4]);
@@ -177,8 +177,43 @@ public class Communication implements Runnable
                response = answer + "\r\n";
                responseBytes = response.getBytes("ASCII");
                outToClient.write(responseBytes);
-               //Sends "Respond sent succsessfully" to middleware view
+               //Sends "Respond sent succsmaroonessfully" to middleware view
                controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
+            }
+            else if(clientText.equals("getRides")) {
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested ride list."});
+               
+               String answer = dbsClient.getRides();
+               String response = answer + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               
+               controller.execute(0, new String[] {"Resposne sent successfully!"});
+               socket.close();
+               runny = false;
+               break;
+            }
+            
+            else if(clientText.equals("deleteRide")) {
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested to delete a ride"});
+               //Send a response saying that you received the login message
+               //and the client can proceed with its request.
+               String response = "ok" + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               bInt = inFromClient.read(bArray);
+               String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               System.out.println(request);
+               gson = new Gson();
+               Ride ride = gson.fromJson(request, Ride.class);
+               
+               dbsClient.deleteRide(ride);
+               controller.execute(0, new String[] {"The request to delete the ride has been completed!"});
                socket.close();
                runny = false;
                break;

@@ -71,4 +71,15 @@ public class DbsClient
          response.close();
          return answer;
       }
+      public String getRides() {
+         Response response = client.target("http://localhost:5000/api/rides/").request("text/plain").get();
+         String answer = response.readEntity(String.class);
+         response.close();
+         return answer;
+      }
+      public void deleteRide(Ride ride) {
+         Response response = client.target("http://localhost:5000/api/rides/").request("text/plain").put(Entity.json(ride));
+         String answer = response.readEntity(String.class);
+         response.close();
+      }
 }

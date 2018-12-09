@@ -56,5 +56,47 @@ namespace Database.Controllers
             }
 
         }
+        [HttpGet]
+        public ActionResult<RideList> GetRides(){
+            List<Ride> rides = new List<Ride>();
+            RideList rideList = new RideList();
+            try{
+                var query = from r in motherload.Rides  
+                               select r;
+                
+                foreach(var q in query){
+                    rides.Add(q);
+                }
+                
+                rideList.Rides = rides;
+                return rideList;
+                
+                
+            }
+            catch(Exception e){
+                return rideList;
+            }
+        }
+
+        [HttpPut]
+        public ActionResult<String> Delete([FromBody] Ride request)
+        {
+            try{
+                var query = from r in motherload.Rides 
+                               where (r.Driver == request.Driver && r.Time == request.Time && r.Date == request.Date)
+                               select r;
+                Ride ride = new Ride();
+                foreach(var q in query){
+                    ride = q;
+                }
+                motherload.Rides.Remove(ride);
+                motherload.SaveChanges();
+                return "ok";
+            }
+            catch(Exception e){
+                return "bad";
+            }
+            
+        }
     }
 }
