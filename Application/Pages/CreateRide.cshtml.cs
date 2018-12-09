@@ -14,9 +14,6 @@ namespace Application.Pages
     {
        
         private ClientSocket client;
-        public CreateRideModel(){
-
-        }
 
         [HttpPost]
         public IActionResult OnPostCreateRide

@@ -16,13 +16,6 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            name: {
-                validators: {
-                    notEmpty: {
-                        message: 'The name is required'
-                    }
-                }
-            },
             date: {
                 validators: {
                     notEmpty: {
@@ -35,10 +28,5 @@ $(document).ready(function() {
                 }
             }
         }
-    });
-});
-$(function () {
-    $('#datetimepicker3').datetimepicker({
-        format: 'LT'
     });
 });

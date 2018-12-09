@@ -1,6 +1,9 @@
 @page
 @model CreateRideModel
 
+    @{if(!(User.Identity.IsAuthenticated)){
+		Response.Redirect("Index");
+	}}
 
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
