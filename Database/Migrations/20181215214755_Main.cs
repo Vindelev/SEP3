@@ -2,7 +2,7 @@
 
 namespace Database.Migrations
 {
-    public partial class CreateRide : Migration
+    public partial class Main : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,6 +36,21 @@ namespace Database.Migrations
                 {
                     table.PrimaryKey("PK_Seats", x => x.RideId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserId);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -45,6 +60,9 @@ namespace Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Seats");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

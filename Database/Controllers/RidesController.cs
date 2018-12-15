@@ -15,24 +15,24 @@ namespace Database.Controllers
 
         public RidesController(MotherloadContext motherload){
             this.motherload = motherload;
-            if (motherload.Users.Count() == 0)
-            {
-                // Create a new User if collection is empty,
-                // which means you can't delete all People.
-                motherload.Users.Add(new User { Name = "Mihail Kanchev", Password = "bigbrother", 
-                Email = "test@test.org", PhoneNumber = "69696969"});
-                motherload.SaveChanges();
-            }
         }
-
-
         [HttpPost]
         public ActionResult<String> CreateRide([FromBody] Ride ride){
-            motherload.Rides.Add(ride);
-            motherload.SaveChanges();
-            return "created";
+            
+            bool alreadyInDb = (from p in motherload.Rides where p.Driver == ride.Driver &&
+                p.Date == ride.Date && p.Time == ride.Time select p).Count() > 0;
+            if(alreadyInDb){
+                return "alreadyExists";
+            }
+            else{
+                motherload.Rides.Add(ride);
+                motherload.SaveChanges();
+                return "created";
+            }
+            
         }
-        [HttpGet("{Request}", Name = "GetCreatedRides")]
+
+        [HttpGet("{Request}")]
         public ActionResult<RideList> GetCreatedRides(string Request)
         {
             List<Ride> rides = new List<Ride>();
@@ -63,12 +63,22 @@ namespace Database.Controllers
             try{
                 var query = from r in motherload.Rides  
                                select r;
+                var query2 = from r in motherload.Seats
+                               select r;
                 
                 foreach(var q in query){
                     rides.Add(q);
                 }
                 
+
                 rideList.Rides = rides;
+                foreach(var s in query2){
+                    for(int i = 0; i < rideList.Rides.Count; i++){
+                        if(rideList.Rides[i].RideId == s.RideId){
+                            rideList.Rides[i].passangers.Add(s.Email);
+                        }
+                    }
+                }
                 return rideList;
                 
                 
@@ -79,19 +89,31 @@ namespace Database.Controllers
         }
 
         [HttpPut]
-        public ActionResult<String> Delete([FromBody] Ride request)
-        {
+        public ActionResult<String> JoinRide([FromBody]Ride request)
+        {   
             try{
                 var query = from r in motherload.Rides 
                                where (r.Driver == request.Driver && r.Time == request.Time && r.Date == request.Date)
                                select r;
-                Ride ride = new Ride();
+                Ride rideRequest = new Ride();
                 foreach(var q in query){
-                    ride = q;
+                    rideRequest = q;
                 }
-                motherload.Rides.Remove(ride);
-                motherload.SaveChanges();
-                return "ok";
+
+                bool alreadyInDb = (from p in motherload.Seats where p.RideId == rideRequest.RideId &&
+                p.Email == request.passangers[0] select p).Count() > 0;
+
+                if(alreadyInDb){
+                    return "alreadyJoined";
+                }
+                else{
+                    motherload.Seats.Add(new Seat{ RideId = rideRequest.RideId, Email = request.passangers[0]});
+                    motherload.SaveChanges();
+                    Ride c = (from x in motherload.Rides where x.RideId == rideRequest.RideId select x).First();
+                            c.Seats -= 1;
+                            motherload.SaveChanges();
+                    return "joinedRide";
+                }
             }
             catch(Exception e){
                 return "bad";

@@ -6,6 +6,10 @@ using Newtonsoft.Json;
 
 [Table("Rides")]
 public class Ride{
+    public Ride(){
+        passangers = new List<string>();
+    }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string RideId {get; set;}
@@ -24,7 +28,7 @@ public class Ride{
     public string Comment { get; set;}
 
     [NotMapped]
-    public string[] passangers { get; set;}
+    public List<string> passangers { get; set;}
 
 
 }

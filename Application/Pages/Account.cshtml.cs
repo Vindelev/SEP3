@@ -46,8 +46,13 @@ namespace Application.Pages
             ride.Comment = Comment;
             try{
                 client = new ClientSocket();
-                client.DeleteRide(ride);
-                Message= "Ride deleted succesfully";
+                string asnwer = client.DeleteRide(ride);
+                if(asnwer == "ok"){
+                    Message= "Ride deleted succesfully";
+                }
+                else{
+                    Message= "Something went wrong, please try again.";
+                }
             }
             catch(Exception e){
 

@@ -1,8 +1,6 @@
 @page
 @model IndexModel
-@{
-    Layout = "_Layout";
-}
+
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -14,14 +12,13 @@
                     <span class="icon-bar"></span>
                 </button>
             
-            <a class="navbar-brand" href="Index">Workable</a>
+            <a class="navbar-brand" href="Index">WeRide</a>
 
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">About</a></li>
                     @if(User.Identity.IsAuthenticated){
                         <li class="btn-succsess"><a href="CreateRide">Create a ride</a></li>
                     }
@@ -90,6 +87,7 @@
     }
     @{Model.GenerateRides();}
     <table class="table rides">
+        <form method="post">
             <thead>
                 <th>Driver</th>
                 <th>Seats</th>
@@ -99,19 +97,37 @@
                 <th>Destination city</th>
                 <th>Destination address</th>
                 <th>Additional information</th>
+                <th></th>
             </thead>
             <tbody>
-                @foreach(var ride in Model.rides.Rides){
-                    <tr>
-                        <td>@Html.DisplayFor(m => ride.Driver)</td>
-                        <td>@Html.DisplayFor(m => ride.Seats)</td>
-                        <td>@Html.DisplayFor(m => ride.Date)</td>
-                        <td>@Html.DisplayFor(m => ride.Time)</td>
-                        <td>@Html.DisplayFor(m => ride.DeparturePoint)</td>
-                        <td>@Html.DisplayFor(m => ride.DestinationCity)</td>
-                        <td>@Html.DisplayFor(m => ride.DestinationAddr)</td>
-                        <td>@Html.DisplayFor(m => ride.Comment)</td>
-                    </tr>
-                }
+                    @foreach(var ride in Model.rides.Rides){
+                    if(ride.Seats > 0){
+                        <tr>
+                            <td>@Html.DisplayFor(m => ride.Driver)</td>
+                            <td>@Html.DisplayFor(m => ride.Seats)</td>
+                            <td>@Html.DisplayFor(m => ride.Date)</td>
+                            <td>@Html.DisplayFor(m => ride.Time)</td>
+                            <td>@Html.DisplayFor(m => ride.DeparturePoint)</td>
+                            <td>@Html.DisplayFor(m => ride.DestinationCity)</td>
+                            <td>@Html.DisplayFor(m => ride.DestinationAddr)</td>
+                            <td>@Html.DisplayFor(m => ride.Comment)</td>
+                            @{if(User.Identity.IsAuthenticated && !(ride.Driver == Model.GetEmail()) && !(Model.IsPassanger(ride))){
+                                <td><button asp-page-handler="JoinRide" class="btn brn-xs btn-info" asp-route-Driver="@ride.Driver"
+                                asp-route-Seats ="@ride.Seats" asp-route-Date="@ride.Date" asp-route-Time="@ride.Time"
+                                asp-route-DeparturePoint="@ride.DeparturePoint" asp-route-DestinationCity="@ride.DestinationCity"
+                                asp-route-DestinationAddr="@ride.DestinationAddr" asp-route-Comment="@ride.Comment">
+                                Join ride</button></td>
+                            }
+                            else if(Model.IsPassanger(ride)){
+                                <td><button asp-page-handler="LeaveRide" class="btn brn-xs btn-danger" asp-route-Driver="@ride.Driver"
+                                asp-route-Seats ="@ride.Seats" asp-route-Date="@ride.Date" asp-route-Time="@ride.Time"
+                                asp-route-DeparturePoint="@ride.DeparturePoint" asp-route-DestinationCity="@ride.DestinationCity"
+                                asp-route-DestinationAddr="@ride.DestinationAddr" asp-route-Comment="@ride.Comment">
+                                Leave ride</button></td>
+                            }}     
+                     
+                        </tr>
+                    }}                 
             </tbody>
-        </table>
+        </form>
+    </table>

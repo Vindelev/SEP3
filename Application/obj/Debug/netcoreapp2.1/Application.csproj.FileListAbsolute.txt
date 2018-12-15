@@ -14,7 +14,6 @@ E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\n
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Application.TagHelpers.input.cache
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Application.TagHelpers.output.cache
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Application.RazorCoreGenerate.cache
-E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Razor\Pages\About.g.cshtml.cs
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Razor\Pages\Index.g.cshtml.cs
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Razor\Pages\Shared\_CookieConsentPartial.g.cshtml.cs
 E:\Coding projects\Visual Studio projects\ProofOfConcept\Application\obj\Debug\netcoreapp2.1\Razor\Pages\Shared\_Layout.g.cshtml.cs
