@@ -2,8 +2,9 @@ package Controller;
 
 import java.io.IOException;
 import java.io.Serializable;
-import Model.DbsClient;
-import Model.SocketServer;
+
+import Connections.DbsClient;
+import Connections.SocketServer;
 import View.View;
 
 //Responsible for setting up a connection

@@ -19,27 +19,16 @@ namespace Database.Controllers
             {
                 // Create a new User if collection is empty,
                 // which means you can't delete all People.
-                motherload.Users.Add(new User { Name = "Mihail Kanchev", Password = "bigbrother", 
-                Email = "test@test.org", PhoneNumber = "69696969"});
+                motherload.Users.Add(new User { Name = "Admin", Password = "admin", 
+                Email = "admin", PhoneNumber = "admin"});
                 motherload.SaveChanges();
             }
         }
 
-
-        // GET api/people
-        /* [HttpGet]
-        public ActionResult<List<User>> GetAll()
-        {
-            return motherload.Users.ToList();
-        }*/
-
-        // GET api/users/{Name + , + Password}
-        // Name[0] is user name, Name[1] is user password
-        [HttpGet("{Request}", Name = "GetLogin")]
+        [HttpGet("{Request}")]
         public ActionResult<String> Login(string Request)
         {
             try{
-                System.Console.WriteLine("heyyy");
                 string[] user = Request.Split(",");       
                 var account = motherload.Users.SingleOrDefault(Users => Users.Email == user[0]);
                 if(account == null){
@@ -83,39 +72,6 @@ namespace Database.Controllers
                 return "created";
             }
         }
-
-        // PUT api/people/{cpr}
-        /* [HttpPut("{CPR}")]
-        public IActionResult Update(string CPR, Person person){
-            var human = people.People.Find(CPR);
-            if( human == null){
-                return NotFound();
-            }
-            else{
-                human.Name = person.Name;
-                human.MobileNumber = person.MobileNumber;
-                
-                people.People.Update(human);
-                people.SaveChanges();
-                
-                return NoContent();
-            }
-        }*/
-
-        // DELETE api/people/{cpr}
-        /* [HttpDelete("{CPR}")]
-        public IActionResult Delete(int CPR)
-        {
-            var person = people.People.Find(CPR);
-            if (person == null){
-                return NotFound();
-            }
-            else{
-                people.People.Remove(person);
-                people.SaveChanges();
-                return NoContent();
-            }
-            
-        }*/
+        
     }
 }

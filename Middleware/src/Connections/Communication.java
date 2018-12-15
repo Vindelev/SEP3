@@ -1,4 +1,4 @@
-package Model;
+package Connections;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 
 import Controller.Controller;
+import Model.Ride;
+import Model.User;
 //This class is responsible for the communication between 
 //a client and the middleware.
 public class Communication implements Runnable
@@ -167,9 +169,6 @@ public class Communication implements Runnable
                bInt = inFromClient.read(bArray);
                String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
                
-               //Disects string into User attributes
-               //Makes User object and sets attributes
-               
                //Talks to database and saves the answer to string
                String answer = dbsClient.getCreatedRides(request);
                //Adds \r\n in the end in order to tell client
@@ -190,7 +189,7 @@ public class Communication implements Runnable
                String response = answer + "\r\n";
                byte[] responseBytes = response.getBytes("ASCII");
                outToClient.write(responseBytes);
-               
+                  
                
                controller.execute(0, new String[] {"Resposne sent successfully!"});
                socket.close();
@@ -200,7 +199,7 @@ public class Communication implements Runnable
             
             else if(clientText.equals("deleteRide")) {
                controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested to delete a ride"});
-               //Send a response saying that you received the login message
+               //Send a response saying that you received the deleteRide message
                //and the client can proceed with its request.
                String response = "ok" + "\r\n";
                byte[] responseBytes = response.getBytes("ASCII");
@@ -208,31 +207,71 @@ public class Communication implements Runnable
                
                bInt = inFromClient.read(bArray);
                String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
-               System.out.println(request);
+
                gson = new Gson();
                Ride ride = gson.fromJson(request, Ride.class);
                
-               dbsClient.deleteRide(ride);
+               String answer = dbsClient.deleteRide(ride);
+               
+               response = answer + "\r\n";
+               responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
                controller.execute(0, new String[] {"The request to delete the ride has been completed!"});
                socket.close();
                runny = false;
                break;
             }
-            /*if(clientText.equals("get")) {
-               bInt = inFromClient.read(bArray);
-               request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
-               gson = new Gson();
-               clientText = gson.fromJson(request, String.class);
-               
-               
-               gson = new Gson();
-               Person person = dbsClient.getPerson(clientText);
-               String response = gson.toJson(person)+"\r\n";
-               controller.execute(1, new String[] {socket.getRemoteSocketAddress().toString() + " requested ", response});
+            else if(clientText.equals("joinRide")) {
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested to join a ride"});
+               //Send a response saying that you received the joinRide message
+               //and the client can proceed with its request.
+               String response = "ok" + "\r\n";
                byte[] responseBytes = response.getBytes("ASCII");
                outToClient.write(responseBytes);
-               controller.execute(0, new String[] {"Resposne sent successfully!"});
-            }*/
+               
+               bInt = inFromClient.read(bArray);
+               String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               
+               gson = new Gson();
+               Ride ride = gson.fromJson(request, Ride.class);
+               
+               String answer = dbsClient.joinRide(ride);
+               
+               response = answer + "\r\n";
+               responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               controller.execute(0, new String[] {"The request to join the ride has been completed!"});
+               socket.close();
+               runny = false;
+               break;
+            }
+            else if(clientText.equals("leaveRide")) {
+               controller.execute(0, new String[] {socket.getRemoteSocketAddress().toString() + " requested to leave a ride"});
+               //Send a response saying that you received the joinRide message
+               //and the client can proceed with its request.
+               String response = "ok" + "\r\n";
+               byte[] responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               bInt = inFromClient.read(bArray);
+               String request = new String(bArray, 0, bInt, Charset.forName("ASCII"));
+               
+               gson = new Gson();
+               Ride ride = gson.fromJson(request, Ride.class);
+               
+               String answer = dbsClient.leaveRide(ride);
+               
+               response = answer + "\r\n";
+               responseBytes = response.getBytes("ASCII");
+               outToClient.write(responseBytes);
+               
+               controller.execute(0, new String[] {"The request to leave the ride has been completed!"});
+               socket.close();
+               runny = false;
+               break;
+            }
          }
          catch (Exception e){
             e.printStackTrace();

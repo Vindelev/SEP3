@@ -1,6 +1,11 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 public class Ride{
+
+    public Ride(){
+        passangers = new List<string>();
+    }
     [JsonProperty("Driver")]
     public string Driver { get; set;}
 
@@ -21,9 +26,9 @@ public class Ride{
     [JsonProperty("Time")]
 
     public string Time { get; set;}
-
+    [JsonProperty("Comment")]
     public string Comment { get; set;}
 
-    
-    public string[] passangers { get; set;}
+    [JsonProperty("passangers")]    
+    public List<string> passangers { get; set;}
 }

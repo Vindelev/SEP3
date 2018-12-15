@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Ride {
 
    public String Driver;
@@ -9,47 +11,29 @@ public class Ride {
    public String DestinationAddr;
    public String Date;
    public String Time;
-   public String comment;
-   public String[] passangers;
+   public String Comment;
+   public ArrayList<String> passangers;
    
 
 
    public Ride(String driver, String Seats) {
       this.Driver = driver;
       this.Seats = Integer.parseInt(Seats);
-      passangers = new String[this.Seats];
+      passangers = new ArrayList<String>();
    }
    public String getDriver() {
       return Driver;
    }
    
-   public void addPassanger(String user) {
-      passangers[passangers.length] = user;
-   }
-   
-   public void removePassanger(String user) {
-      for(int i =0; i < passangers.length; i++) {
-        if(passangers[i].equals(user)) {
-           for(int n = i; n < passangers.length; n++) {
-              if(n+1 <= passangers.length) {
-                 passangers[n] = passangers[n+1];
-              }
-              else {
-                 break;
-              }
-           }
-        }
-      }
-   }
    
    public String getComment()
    {
-      return comment;
+      return Comment;
    }
 
    public void setComment(String comment)
    {
-      this.comment = comment;
+      this.Comment = comment;
    }
    
    public String getDeparturePoint()

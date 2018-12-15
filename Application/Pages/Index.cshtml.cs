@@ -24,10 +24,29 @@ namespace Application.Pages
         public bool ShowMessage => !string.IsNullOrEmpty(Message);
 
         public void GenerateRides(){
+            rides = new RideList();
             client = new ClientSocket();
             rides = JsonConvert.DeserializeObject<RideList>(client.GetRides());
+
         }
 
+        public bool IsPassanger(Ride ride){
+            bool answer = false;
+            if(ride.passangers == null){
+                return answer;
+            }
+            else{
+                for(int i =0; i < ride.passangers.Count;i++){
+                    if(ride.passangers[i] == GetEmail()){
+                        answer = true;
+                    }
+                }
+            }
+            return answer;
+        }
+        public string GetEmail(){
+            return User.FindFirst(ClaimTypes.Email)?.Value;
+        }
         [HttpPost]  
         public async Task<IActionResult> OnPostLoginAsync(string email, string password){
             
@@ -72,6 +91,74 @@ namespace Application.Pages
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("Index");
         }
+
+         [HttpPost]
+        public async Task<ActionResult> OnPostJoinRideAsync(string Driver, string Seats, string Date, string Time,
+        string DeparturePoint, string DestinationCity, string DestinationAddr, string Comment){
+            if(Int16.Parse(Seats) == 0){
+                Message = "Ride is already full.";
+                return Redirect("Index");
+            }
+            Ride ride = new Ride();
+            ride.Driver = Driver;
+            ride.Seats = int.Parse(Seats);
+            ride.Date = Date;
+            ride.Time = Time;
+            ride.DeparturePoint = DeparturePoint;
+            ride.DestinationCity = DestinationCity;
+            ride.DestinationAddr = DestinationAddr;
+            ride.Comment = Comment;
+            ride.passangers.Add(GetEmail());
+            try{
+                client = new ClientSocket();
+                String answer = client.JoinRide(ride);
+                if(answer == "joinedRide"){
+                    Message= "Ride joined succsessfully.";
+                }
+                else if(answer == "alreadyJoined"){
+                    Message= "You already had joined that ride.";
+                }
+                else{
+                    Message = "Something went wrong. Please try again.";
+                }
+                
+            }
+            catch(Exception e){
+                Message = "Something went wront, please try again.";
+            }
+            return Redirect("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OnPostLeaveRideAsync(string Driver, string Seats, string Date, string Time,
+        string DeparturePoint, string DestinationCity, string DestinationAddr, string Comment){
+            Ride ride = new Ride();
+            ride.Driver = Driver;
+            ride.Seats = int.Parse(Seats);
+            ride.Date = Date;
+            ride.Time = Time;
+            ride.DeparturePoint = DeparturePoint;
+            ride.DestinationCity = DestinationCity;
+            ride.DestinationAddr = DestinationAddr;
+            ride.Comment = Comment;
+            ride.passangers.Add(GetEmail());
+            try{
+                client = new ClientSocket();
+                String answer = client.LeaveRide(ride);
+                if(answer == "leftRide"){
+                    Message= "Ride left succsessfully.";
+                }
+                else{
+                    Message = "Something went wrong. Please try again.";
+                }
+                
+            }
+            catch(Exception e){
+                Message = "Something went wront, please try again.";
+            }
+            return Redirect("Index");
+        }
+
 
     }
 

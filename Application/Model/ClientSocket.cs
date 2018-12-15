@@ -225,10 +225,10 @@ public class ClientSocket{
         Receive(this.client);
         receiveDone.WaitOne();
         receiveDone.Reset();
-        
+
         return response;
     }
-    public void DeleteRide(Ride ride){
+    public string DeleteRide(Ride ride){
         String request = JsonConvert.SerializeObject(ride);
 
         Send(this.client, "deleteRide");
@@ -242,5 +242,50 @@ public class ClientSocket{
         Send(this.client, request);
         sendDone.WaitOne();
         sendDone.Reset();
+        
+        return response;
+    }
+    public string JoinRide(Ride ride){
+        String request = JsonConvert.SerializeObject(ride);
+
+        Send(this.client, "joinRide");
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+
+        Send(this.client, request);
+        sendDone.WaitOne();
+        sendDone.Reset();
+        
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+        
+        return response;
+    }
+
+    public string LeaveRide(Ride ride){
+        String request = JsonConvert.SerializeObject(ride);
+        
+        Send(this.client, "leaveRide");
+        sendDone.WaitOne();
+        sendDone.Reset();
+
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+
+        Send(this.client, request);
+        sendDone.WaitOne();
+        sendDone.Reset();
+        
+        Receive(this.client);
+        receiveDone.WaitOne();
+        receiveDone.Reset();
+
+        return response;
     }
 }
